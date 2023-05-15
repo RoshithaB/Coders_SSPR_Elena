@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EleNa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+      #wrapper { position:absolute; top: 50px; bottom:0; width:100%; z-index: 0; }
+      #map { position:relative; width:100%; height: 80%;}
+      .user {
+                display: block;
+                position: relative;
+                margin: 0px auto;
+                border: none;
+                border-radius: 2px;                
+                color: #222;
+                
+            } 
+      .usernav {
+          height: 510px;
+          width: 200px;
+          position: absolute;
+          z-index: 1;
+          top: 120px;
+          left: 50px;
+          background-color:#B7B3B3;
+          overflow-x: hidden;
+          float: center;
+          
+      } 
+      .info {
+                display: block;
+                position: relative;
+                margin: 1px auto;
+                border: none;
+                border-radius: 2px;                
+                color: #222;
+                
+            } 
+      .infonav {
+          height: 500px;
+          width: 200px;
+          position: absolute;
+          z-index: 1;
+          top: 120px;
+          right: 50px;
+          background-color:#B7B3B3;
+          overflow-x: hidden;
+          float: center;
+          text-align: center;    
+      } 
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row navbar-expand-lg navbar-dark bg-dark shadow-sm p-1">
+        <center>
+          <a href="#" class="navbar-brand">
+            <span class="font-weight-bold">EleNa: Elevation-based Navigation Application</span>
+          </a>
+        </center>
+      </div>
+
+      <div id="wrapper">
+        <div id="map" class="border" style="height: 700px; width: 100%; opacity: 0.8;"></div>
+      </div>
+      
+      <div id="user" class="usernav">
+        <div class="row border p-2" style="background: black; color: aliceblue;"><label >User Input</label></div>
+          <div class="row border p-2">
+            <form action="/new" method="post" role="form" id="dataForm">
+              <div class="form-group pt-1">
+                <label>Start Location:</label>
+                <input class="form-control" id="start" name="start" class="controls" type="text" placeholder="Search here" autocomplete="on" runat="server">
+              </div>
+              <div class="form-group pt-2">
+                <label>End Location:</label>
+                <input class="form-control" id="end" name="end" class="controls" type="text" placeholder="Search here">
+              </div>
+              <div class="form-group pt-3">
+                <label>Maximum percent of shortest path to travel:</label>
+                <select class="form-select" name="percent" id="percent" min="100" max="200" step="25">
+                  <option value=100>100</option>
+                  <option value=125>125</option>
+                  <option value=150>150</option>
+                  <option value=175>175</option>
+                  <option value=200>200</option>
+                </select>
+              </div>
+              <div class="form-group pt-3">
+                <label>Elevation Preference:</label>
+                <select class="form-select" name="elevation" id="elevation">
+                  <option value="max">Maximum</option>
+                  <option value="min">Minimum</option>
+                </select>
+              </div>
+              <!--<div class="form-group pt-3">
+                <label>Algorithm:</label>
+                <input class="form-control" name="algo" id="algo" class="controls" type="text" placeholder="Dijkstra" value="Dijkstra">
+              </div>-->
+            </form>
+            <div class="form-group pt-3">
+              <button id="submit" onclick="submit()" class="btn btn-success">Calculate</button>
+              <button class="btn btn-danger" id="reset" onclick="reset()">Reset</button>
+            </div>
+          </div>
+      </div>
+      <div id="info" class="infonav">
+          <div class="row border p-2" style="background: black; color: aliceblue;"><label >Statistics</label></div>
+          <div class="row border p-2" id="statistics" style="height: 192px;"></div>
+          <div class="row border p-2" style="background: black; color: aliceblue;"><label >Directions</label></div>
+          <div class="row border p-2" style="height: 192px;" id="directionsPanel"></div>
+      </div>
+    </div>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC19S4I6tEZYE9Iv4zhsNRixctc6gp_Dc&libraries=places&callback=initAutocomplete"></script>
+
+  </body>
+  </body>
+</html>
