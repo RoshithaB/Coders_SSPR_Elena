@@ -7,7 +7,7 @@ import googlemaps
 from src.Controller.RouteController import RouteController
 import json
 
-gmaps = googlemaps.Client(key='AIzaSyCC19S4I6tEZYE9Iv4zhsNRixctc6gp_Dc')
+gmaps = googlemaps.Client(key='AIzaSyCJRDo3QnMDZo_UApNI9GnmODzHw-zWtHw')
 
 @app.route("/")
 def home():

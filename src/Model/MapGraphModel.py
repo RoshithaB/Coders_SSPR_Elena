@@ -13,7 +13,7 @@ class MapGraphModel:
         self.G= None
         self.initial_point = (42.3867637, -72.5322402) # Co-ordinates of UMass Amherst
         self.saved_map_path = "src/graph.p"
-        self.gmap_api_key = "AIzaSyAwgA49m7P_jYVRdLY2aS8uy7VIGYkpweE"
+        self.gmap_api_key = "AIzaSyCJRDo3QnMDZo_UApNI9GnmODzHw-zWtHw"
         self.isMapLoaded = os.path.exists(self.saved_map_path)
     
     def dist_nodes(self,lat1,long1,lat2,long2):
@@ -33,7 +33,7 @@ class MapGraphModel:
         """
         Method to add distances from dest node to all nodes in the graph.
         """
-        end_node = self.G.nodes[ox.get_nearest_node(self.G, point=dest_node)]
+        end_node = self.G.nodes[ox.distance.nearest_nodes(self.G, dest_node[0], dest_node[1])]
         for node, data in self.G.nodes(data=True):
             node_lat = self.G.nodes[node]['x']
             node_long = self.G.nodes[node]['y']

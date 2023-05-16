@@ -24,8 +24,8 @@ class ShortestPathController:
         """
         Method to compute shortest path using weights on the edges.
         """
-        self.start_location, _ = ox.get_nearest_node(self.G, point=start, return_dist=True)
-        self.end_location, _ = ox.get_nearest_node(self.G, point=end, return_dist=True)
+        self.start_location, _ = ox.distance.nearest_nodes(self.G, start[0], start[1], return_dist=True)
+        self.end_location, _ = ox.distance.nearest_nodes(self.G, end[0], end[1], return_dist=True)
         self.shortest_path = nx.shortest_path(self.G, self.start_location, self.end_location, weight=LENGTH)
 
         path_model = PathModel()
@@ -39,6 +39,7 @@ class ShortestPathController:
                                             for node in self.shortest_path])
             
         self.shortest_dist = sum(ox.utils_graph.get_route_edge_attributes(self.G,self.shortest_path,LENGTH))
+        print(f"\n\nshortest_distance = {self.shortest_dist}\n\n")
         path_model.set_distance(self.shortest_dist)
         path_model.set_path_flag(1)
         return path_model
