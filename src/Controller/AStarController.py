@@ -4,7 +4,8 @@ from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.PathModel import *
 from . import AbstractAlgorithm
 import networkx as nx
-from src.utils import calculate_astar_path, ElevationGain, ElevationStrategy, Constants
+from src.utils import calculate_astar_path, ElevationGain, ElevationStrategy
+from src.utils import Constants, RouteAlgorithms
 
 
 class AStarController(AbstractAlgorithm.AbstractAlgorithm):
@@ -50,7 +51,7 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
         
     def set_path_contents(self):
         path_model = PathModel()
-        path_model.set_algo("A* Algorithm.")
+        path_model.set_algo(RouteAlgorithms.ASTAR_ALGORITHM.value)
         path_model.set_elevation_gain(self.model.get_path_weight(self.graph_map, self.elevation_path, ElevationGain.ELEVATION_GAIN.value))
         path_model.set_drop(0)
         path_model.set_path([[self.graph_map.nodes[route_node]['x'], self.graph_map.nodes[route_node]['y']]

@@ -4,6 +4,7 @@ from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.PathModel import PathModel
 from src.Model.Observable import Observable
 from src.utils import Constants, ElevationGain
+from src.utils import RouteAlgorithms
 
 ELEVATION_GAIN = "elevation_gain"
 LENGTH = "length"
@@ -25,7 +26,7 @@ class ShortestPathController:
 
     def set_path_contents(self):
         path_model = PathModel()
-        path_model.set_algo("Shortest Route ALgorithm")
+        path_model.set_algo(RouteAlgorithms.SHORTEST_ROUTE_ALGORITHM.value)
         path_model.set_start_location(self.start_location)
         path_model.set_end_location(self.end_location)
         path_model.set_elevation_gain(self.model.get_path_weight(self.G, self.shortest_path, ElevationGain.ELEVATION_GAIN.value))

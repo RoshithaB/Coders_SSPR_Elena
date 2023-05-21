@@ -17,6 +17,11 @@ class Constants(Enum):
     WEIGHT = "weight"
     ELEVATION = "elevation"
 
+class RouteAlgorithms(Enum):
+    ASTAR_ALGORITHM = "A* Algorithm."
+    DIJKSTRA_ALGORITHM = "Dijkstra Algorithm."
+    SHORTEST_ROUTE_ALGORITHM = "Shortest Route Algorithm."
+
 def calculate_astar_path(G, source, target, heuristic, weight):
         if source not in G or target not in G:
             return
