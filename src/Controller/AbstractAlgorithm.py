@@ -8,7 +8,8 @@ class AbstractAlgorithm(ABC):
         self.origin = None
         self.destination = None
         self.graph_map = None
-        self.elevation_strategy = None
+        self._elevation_strategy = None
+        self._algo = None
 
     @abstractmethod
     def set_algo(algorithm):

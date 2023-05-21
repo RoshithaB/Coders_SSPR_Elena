@@ -1,8 +1,9 @@
-NORMAL = "normal"
+from src.utils import ElevationGain
+
 LENGTH = "length"
 WEIGHT = "weight"
-ELEVATION_GAIN = "elevation_gain"
 ELEVATION = "elevation"
+
 
 class AlgorithmModel:
     """
@@ -14,13 +15,13 @@ class AlgorithmModel:
         """
         This method initializes the  route and algorithm attributes
         """
-        self.graph = None
-        self.observer = None
-        self.algorithm = None
-        self.path_limit = None
-        self.elevation_strategy = None
-        self.algo_flag = 1
-        self.heuristic = None
+        self._graph = None
+        self._observer = None
+        self._algorithm = None
+        self._path_limit = None
+        self._elevation_strategy = None
+        self._algo_flag = 1
+        self._heuristic = None
 
     def set_graph(self, graph):
         self.graph = graph
@@ -52,13 +53,13 @@ class AlgorithmModel:
     def set_end_point(self, end_point):
         self.end_point = end_point
 
-    def get_weight(self, graph, node_1, node_2, weight_type=NORMAL):
-        if weight_type == NORMAL:
+    def get_weight(self, graph, node_1, node_2, weight_type=ElevationGain.NORMAL.value):
+        if weight_type == ElevationGain.NORMAL.value:
             try:
                 return graph.edges[node_1, node_2, 0][LENGTH]
             except:
                 return graph.edges[node_1, node_2][WEIGHT]
-        elif weight_type == ELEVATION_GAIN:
+        elif weight_type == ElevationGain.ELEVATION_GAIN.value:
             return max(0.0, graph.nodes[node_2][ELEVATION] - graph.nodes[node_1][ELEVATION])
 
     def get_path_weight(self, graph, route, weight_attribute):

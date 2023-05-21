@@ -2,6 +2,20 @@ from networkx.algorithms.shortest_paths.weighted import _weight_function
 from itertools import count
 from heapq import heappush, heappop
 import networkx as nx
+from enum import Enum
+
+class ElevationGain(Enum):
+    ELEVATION_GAIN = "elevation_gain"
+    NORMAL = "normal"
+
+class ElevationStrategy(Enum):
+    MIN = "min"
+    MAX = "max"
+
+class Constants(Enum):
+    LENGTH = "length"
+    WEIGHT = "weight"
+    ELEVATION = "elevation"
 
 def calculate_astar_path(G, source, target, heuristic, weight):
         if source not in G or target not in G:
@@ -41,5 +55,5 @@ def calculate_astar_path(G, source, target, heuristic, weight):
                     h = heuristic(neighbor, target)
                 enqueued[neighbor] = cost, h
                 heappush(queue, (cost + h, next(cnt), neighbor, cost, current))
-                
+
         raise nx.NetworkXNoPath(f"Node {target} not reachable from {source}")

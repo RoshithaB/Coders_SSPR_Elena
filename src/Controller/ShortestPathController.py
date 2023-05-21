@@ -3,6 +3,7 @@ import osmnx as ox
 from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.PathModel import PathModel
 from src.Model.Observable import Observable
+from src.utils import Constants, ElevationGain
 
 ELEVATION_GAIN = "elevation_gain"
 LENGTH = "length"
@@ -27,13 +28,13 @@ class ShortestPathController:
         path_model.set_algo("Shortest Route ALgorithm")
         path_model.set_start_location(self.start_location)
         path_model.set_end_location(self.end_location)
-        path_model.set_elevation_gain(self.model.get_path_weight(self.G, self.shortest_path, ELEVATION_GAIN))
+        path_model.set_elevation_gain(self.model.get_path_weight(self.G, self.shortest_path, ElevationGain.ELEVATION_GAIN.value))
         path_model.set_drop(0)
         
         path_model.set_path([[self.G.nodes[node]['x'], self.G.nodes[node]['y']]
                                             for node in self.shortest_path])
             
-        self.shortest_dist = sum(ox.utils_graph.get_route_edge_attributes(self.G,self.shortest_path,LENGTH))
+        self.shortest_dist = sum(ox.utils_graph.get_route_edge_attributes(self.G,self.shortest_path, Constants.LENGTH.value))
         path_model.set_distance(self.shortest_dist)
         path_model.set_path_flag(1)
         return path_model
@@ -44,7 +45,7 @@ class ShortestPathController:
         """
         self.start_location, _ = ox.get_nearest_node(self.G, point=start, return_dist=True)
         self.end_location, _ = ox.get_nearest_node(self.G, point=end, return_dist=True)
-        self.shortest_path = nx.shortest_path(self.G, self.start_location, self.end_location, weight=LENGTH)
+        self.shortest_path = nx.shortest_path(self.G, self.start_location, self.end_location, weight=Constants.LENGTH.value)
 
         
         return self.set_path_contents()
