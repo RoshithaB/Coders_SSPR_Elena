@@ -1,0 +1,7 @@
+haversine~=2.3.0
+osmnx~=1.0.1
+networkx~=2.5.1
+Flask~=1.1.2
+numpy~=1.21.5
+geopy~=2.1.0
+googlemaps
