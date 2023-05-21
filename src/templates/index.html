@@ -16,153 +16,113 @@
     </script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <style>
-      #wrapper {position:absolute; top: 50px; bottom:0; width:75%; left: 25%; z-index: 0;}
+      #wrapper {position:absolute; top: 55px; bottom:0; width:75%; left: 23%; z-index: 0;}
       #map {position:absolute; width:100%; height: 100%; opacity: 1.0;}
-      /* .usernav {
-          height: 510px;
-          width: 200px;
-          position: relative;
-          z-index: 1;
-          top: 120px;
-          left: 50px;
-          background-color:#B7B3B3;
-          overflow-x: hidden;
-          float: center;
-      } */
-      .infonav {
-          height: 500px;
-          width: 200px;
-          position: absolute;
-          z-index: 1;
-          top: 120px;
-          right: 50px;
-          background-color:#9e6d81;
-          overflow-x: hidden;
-          float: center;
-          text-align: center;    
-      } 
-      .usernav {
-        width: 20%;
-        background-color: #e3bfc9;
-        padding: 20px;
-      }
-      .usernav label {
-        font-weight: bold;
-        color: #222;
-      }
-      .usernav .form-control {
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 6px 12px;
-        font-size: 14px;
-        line-height: 1.42857143;
-        color: #555;
-        background-color: #ccc;
-        border: 1px solid #000;
-        border-radius: 4px;
-      }
-      .usernav .form-select {
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 6px 12px;
-        font-size: 14px;
-        line-height: 1.42857143;
-        color: #555;
-        background-color: #ccc;
-        border: 1px solid #000;
-        border-radius: 4px;
-      }
-      .usernav .btn {
-        margin-right: 10px;
-      }
     </style>
   </head>
   <body>
+    <div class="row navbar-expand-lg navbar-light bg-secondary shadow-sm p-1">
+      <center>
+        <a href="#" class="navbar-brand">
+          <span class="font-weight-bold">EleNa: Elevation-based Navigation Application</span>
+        </a>
+      </center>
+    </div>
     <div class="container-fluid">
-      <div class="row navbar-expand-lg navbar-light bg-secondary shadow-sm p-1">
-        <center>
-          <a href="#" class="navbar-brand">
-            <span class="font-weight-bold">EleNa: Elevation-based Navigation Application</span>
-          </a>
-        </center>
-      </div>
-
-      <div id="wrapper">
-        <div id="map" class="border"></div>
-      </div>
-      <div class="usernav">
-        <div class="row border p-2" style="background: #a6a1a2; color: #FFF;"><label>Plan Your Route</label></div>
-        <div class="row border p-2">
-          <form action="/new" method="post" role="form" id="dataForm" class="form-horizontal">
-            <div class="form-group">
-              <label class="col-sm-9 control-label">Start From:</label>
-              <div class="col-sm-9">
-                <input class="form-control" id="start" name="start" type="text" placeholder="Search here" autocomplete="on">
+      <div class="row">
+        <div class="card m-3" style="width: 20%">
+          <div class="card-header text-center bg-secondary text-white mt-3">
+            <h5 class="card-title">Plan your route</h5>
+          </div>
+          <div class="form-container card-body">
+            <form action="javascript:void(0);" id="dataForm">
+              <div class="form-group mt-3">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Start</span>
+                  </div>
+                  <input class="form-control" id="start" name="start" type="text" placeholder="Search here" autocomplete="on">
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-3 control-label">Destination:</label>
-              <div class="col-sm-9">
-                <input class="form-control" id="end" name="end" type="text" placeholder="Search here">
+              <div class="form-group mt-3">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">End</span>
+                  </div>
+                  <input class="form-control" id="end" name="end" type="text" placeholder="Search here" autocomplete="on">
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-12 control-label">Maximum % Shortest Path:</label>
-              <div class="col-sm-9">
-                <select class="form-select" name="percent" id="percent" min="100" max="200" step="25">
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="75">75</option>
-                  <option value="100">100</option>
-                  <option value="125">125</option>
-                  <option value="150">150</option>
-                  <option value="175">175</option>
-                  <option value="200">200</option>
-                  <option value="225">225</option>
-                  <option value="250">250</option>
-                  <option value="275">275</option>
-                  <option value="300">300</option>
-                </select>
+              <div class="form-group mt-3">
+                <label for="percent" class="form-label">Max % Shortest Path:</label>
+                <div class="percent-wrap">
+                  <input type="range" class="form-range" min="100" max="200" step="25" id="percent" data-slider-value="[100, 200]">
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-9 control-label">Elevation Preference:</label>
-              <div class="col-sm-9">
-                <select class="form-select" name="elevation" id="elevation">
-                  <option value="max">Maximum</option>
-                  <option value="min">Minimum</option>
-                </select>
+              
+              <div class="form-group mt-3">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="elevation">Elevation</label>
+                  </div>
+                  <select class="form-select" id="elevation">
+                    <option selected></option>
+                    <option value="max">Maximum</option>
+                    <option value="min">Minimum</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-12 control-label">Algorithm Preference:</label>
-              <div class="col-sm-9">
-                <select class="form-select" name="elevation" id="elevation">
-                  <option value="max">Dikstra</option>
-                  <option value="min">A-Star</option>
-                </select>
+              <div class="form-group mt-3">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="algorithm">Algorithm</label>
+                  </div>
+                  <select class="form-select" id="algorithm">
+                    <option selected></option>
+                    <option value="dijkstra">Dijkstra</option>
+                    <option value="a-star">A-Star</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-9 col-sm-9">
-                <button id="submit" onclick="submit()" class="btn btn-success">Go</button>
-                <button class="btn btn-primary" id="reset" onclick="reset()">Reset</button>
-                
+              <div class="form-group">
+                <button id="go" class="btn btn-success mr-2">Go</button>
+                <button id="reset" class="btn btn-primary">Reset</button>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
+        </div>
+        <div id="wrapper">
+          <div id="map"></div>
         </div>
       </div>
-      <!-- <div id="info" class="infonav">
-          <div class="row border p-2" style="background: black; color: aliceblue;"><label >Statistics</label></div>
-          <div class="row border p-2" id="statistics" style="height: 192px;"></div>
-          <div class="row border p-2" style="background: black; color: aliceblue;"><label >Directions</label></div>
-          <div class="row border p-2" style="height: 192px;" id="directionsPanel"></div>
-      </div> -->
     </div>
-
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJRDo3QnMDZo_UApNI9GnmODzHw-zWtHw&libraries=places&callback=initAutocomplete"></script>
-
-  </body>
+    <script>
+      $("#go").click(function() {
+        if(!formValidation()){
+          return;
+        }
+        $.get("http://127.0.0.1:5000/"+ encodeURIComponent($("#start").val()) + ":" 
+        + encodeURIComponent($("#end").val()) + ":" 
+        + encodeURIComponent($("#percent").val()) + ":" 
+        + encodeURIComponent($("#elevation").val())).done(function (data) {
+          start = data.origin;
+          end = data.des
+          path = data.path;
+          distance = data.dis;
+          elevation = data.elev;
+          for(var i =0; i < path.length; i++)
+          {
+            showPathOnMap(start, end, path[i], distance, elevation); 
+          }
+        })
+    })
+      $("#reset").click(function(){
+        removeMarker();
+        removePathFromMap();
+        // resetRouteStatistics();
+        // document.getElementById("dataForm").reset();
+        // $('#dataForm')[0].reset();
+      })
+    </script>
   </body>
 </html>

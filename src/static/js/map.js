@@ -121,35 +121,6 @@ function removePathFromMap(){
   directionsDisplay.setMap(map);
 }
 
-function reset() {
-    removeMarker();
-    removePathFromMap();
-    resetRouteStatistics();
-    document.getElementById("dataForm").reset();
-}
-
-function submit(){
-  if(!formValidation()){
-    return;
-  }
-  $.get("http://127.0.0.1:5000/"+ encodeURIComponent($("#start").val()) + ":" 
-  + encodeURIComponent($("#end").val()) + ":" 
-  + encodeURIComponent($("#percent").val()) + ":" 
-  + encodeURIComponent($("#elevation").val())).done(function (data) {
-    start = data.origin;
-    end = data.des
-    path = data.path;
-    distance = data.dis;
-    elevation = data.elev;
-     
-    for(var i =0; i < path.length; i++)
-    {
-      showPathOnMap(start, end, path[i], distance, elevation); 
-    }
-    
-  })
-}
-
 function formValidation(){
   var start = document.getElementById("start").value;
   var end = document.getElementById("end").value;
@@ -171,9 +142,9 @@ function setRouteStatistics(distance, elevation) {
   distance = Math.round(distance * 100) / 100;
   elevation = Math.round(elevation * 100) / 100;
   var routeStats = "<strong>Total Distance:</strong><label style='text-align:center'> " + distance + " miles"+ "</label><br><strong>Elevation Gain:</strong><label style='text-align:center'> " + elevation+ " metres"+"</label>";
-  document.getElementById("statistics").innerHTML = routeStats;
+  // document.getElementById("statistics").innerHTML = routeStats;
 }
 
-function resetRouteStatistics() {
-  document.getElementById("statistics").innerHTML = "";
-}
+// function resetRouteStatistics() {
+//   document.getElementById("statistics").innerHTML = "";
+// }
