@@ -20,6 +20,7 @@ class AlgorithmModel:
         self.path_limit = None
         self.elevation_strategy = None
         self.algo_flag = 1
+        self.heuristic = None
 
     def set_graph(self, graph):
         self.graph = graph

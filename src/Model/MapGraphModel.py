@@ -33,7 +33,7 @@ class MapGraphModel:
         """
         Method to add distances from dest node to all nodes in the graph.
         """
-        end_node = self.G.nodes[ox.distance.nearest_nodes(self.G, dest_node[0], dest_node[1])]
+        end_node = self.G.nodes[ox.get_nearest_node(self.G, point=dest_node)]
         for node, data in self.G.nodes(data=True):
             node_lat = self.G.nodes[node]['x']
             node_long = self.G.nodes[node]['y']

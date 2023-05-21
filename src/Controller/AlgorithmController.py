@@ -95,7 +95,7 @@ class AlgorithmController():
                 self.elevation_gain = elevation_gain
             self.scaling_factor *= 5
         path_model = PathModel()
-        path_model.set_algo(str(self.algo_flag))
+        path_model.set_algo("A* Algorithm.")
         path_model.set_elevation_gain(self.model.get_path_weight(self.graph, self.elevation_path, ELEVATION_GAIN))
         path_model.set_drop(0)
         path_model.set_path([[self.graph.nodes[route_node]['x'], self.graph.nodes[route_node]['y']]

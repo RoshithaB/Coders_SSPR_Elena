@@ -1,7 +1,10 @@
+
+from . import ShortestPathController
+from . import AlgorithmController
+from . import AStarController
+
 from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.MapGraphModel import MapGraphModel
-from src.Controller.ShortestPathController import ShortestPathController
-from src.Controller.AlgorithmController import AlgorithmController
 
 class RouteController:
     def __init__(self):
@@ -24,7 +27,8 @@ class RouteController:
             Shortest Path model
         """
         self.algorithm_model.set_graph(MapGraphModel().get_map_graph(dest))
-        controller = ShortestPathController(self.algorithm_model.get_graph())
+        controller = ShortestPathController.ShortestPathController()
+        controller.set_graph(self.algorithm_model.get_graph())
         return controller.get_shortest_path(origin, dest)
 
     def calcuate_elevation_path(self):
@@ -38,6 +42,18 @@ class RouteController:
         Returns:
             Shortest Path model
         """
+        astar_controller = AStarController.AStarController()
+        print(self.algorithm_model.get_elevation_strategy())
+        astar_controller.set_contents(self.algorithm_model.get_graph(), 
+                                    self.shortest_path.get_origin(),
+                                    self.shortest_path.get_destination(),
+                                    None,
+                                    self.algorithm_model.get_path_limit(),
+                                    100,
+                                    self.algorithm_model.get_elevation_strategy(),
+                                    self.shortest_path
+                                    )
+        """
         algorithm_controller = AlgorithmController(self.algorithm_model.get_graph(),
                                     self.shortest_path.get_distance(),
                                     self.algorithm_model.get_path_limit(),
@@ -46,7 +62,8 @@ class RouteController:
                                     self.shortest_path.get_destination(),
                                     self.shortest_path.get_gain(),
                                     self.algorithm_model.get_algo_flag())
-        return algorithm_controller.fetch_route_with_elevation()
+        """
+        return astar_controller.fetch_route_with_elevation()
 
     def print_route_attributes(self, path):
         """
@@ -73,6 +90,8 @@ class RouteController:
             map_view:
         """
         # Shortest path calculation
+        #print(start_point)
+        #print(end_point)
         self.shortest_path = self.calculate_shortest_path(start_point, end_point)
         self.print_route_attributes(self.shortest_path)
 

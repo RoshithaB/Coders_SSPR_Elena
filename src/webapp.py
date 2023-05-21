@@ -4,6 +4,8 @@ from . import app
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import googlemaps
+import sys
+sys.path.append("..")
 from src.Controller.RouteController import RouteController
 import json
 
@@ -30,7 +32,6 @@ def index(request):
 
 		start_coordinates = [gmaps.geocode(start_location)[0]['geometry']['location']['lat'], gmaps.geocode(start_location)[0]['geometry']['location']['lng']]
 		end_coordinates = [gmaps.geocode(end_location)[0]['geometry']['location']['lat'], gmaps.geocode(end_location)[0]['geometry']['location']['lng']]
-
 		view = MapView()
 		controller = RouteController()
 		#controller.calculate_final_route(start_coordinates, end_coordinates, percent, minmax_elev_gain, algo, view)
