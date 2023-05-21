@@ -1,15 +1,13 @@
 import math
 import osmnx  as ox
-from networkx.algorithms.shortest_paths.weighted import _weight_function
 from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.PathModel import *
 from . import AbstractAlgorithm
 import networkx as nx
-from heapq import heappush, heappop
-from itertools import count
+from src.utils import calculate_astar_path
+
 
 class AStarController(AbstractAlgorithm.AbstractAlgorithm):
-
     def set_contents(self, graph, origin, destination, heuristic, path_limit, scaling_factor, elevation_strategy, short_dist):
         self.graph_map = graph
         self.origin = origin
@@ -41,47 +39,6 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
     def get_scaling_factor(self):
         return self.scaling_factor
 
-    def calculate_astar_path(self, G, source, target, heuristic, weight):
-        if source not in G or target not in G:
-            return
-
-        if heuristic is None:
-            def heuristic(u, v):
-                return 0
-            
-        weight = _weight_function(G, weight)
-        cnt = count()
-        queue = [(0, next(cnt), source, 0, None)]
-        enqueued, explored = {}, {}
-        while queue:
-            _, __, current, distance, parent = heappop(queue)
-            if current == target:
-                path = [current]
-                node = parent
-                while node is not None:
-                    path.append(node)
-                    node = explored[node]
-                path.reverse()
-                return path
-            if current in explored:
-                if explored[current] is None:
-                    continue
-                qcost, h = enqueued[current]
-                if qcost < distance:
-                    continue
-            explored[current] = parent
-            for neighbor, w in G[current].items():
-                cost = distance + weight(current, neighbor, w)
-                if neighbor in enqueued:
-                    qcost, h = enqueued[neighbor]
-                    if qcost <= cost:
-                        continue
-                else:
-                    h = heuristic(neighbor, target)
-                enqueued[neighbor] = cost, h
-                heappush(queue, (cost + h, next(cnt), neighbor, cost, current))
-        raise nx.NetworkXNoPath(f"Node {target} not reachable from {source}")
-
     def calculate_elevation_path(self):
         return nx.shortest_path(self.graph_map, source=self.origin, target=self.destination,
                                                 weight="length")
@@ -89,7 +46,6 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
     def set_elevation_strategy(self):
         self.minmax = 1
         if self.elevation_strategy == 'max':
-            print("HEy")
             self.minmax = -1
         
     def set_path_contents(self):
@@ -109,7 +65,7 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
         self.elevation_path = self.calculate_elevation_path()
 
         while self.scaling_factor < 10000:
-            elevation_path = self.calculate_astar_path(self.graph_map,
+            elevation_path = calculate_astar_path(self.graph_map,
                                               source=self.origin,
                                               target=self.destination,
                                               heuristic= self.dist,
