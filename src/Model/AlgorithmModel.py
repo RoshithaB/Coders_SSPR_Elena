@@ -36,7 +36,7 @@ class AlgorithmModel:
         return self.path_limit
 
     def set_elevation_strategy(self, elevation_strategy):
-        self.elevation_strategy = elevation_strategy
+        self._elevation_strategy = elevation_strategy
     
     def get_elevation_strategy(self):
         return self._elevation_strategy

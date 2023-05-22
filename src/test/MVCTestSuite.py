@@ -81,7 +81,6 @@ class MVCTestSuite(unittest.TestCase):
         elevation_path = controller.fetch_route_with_elevation()
         shortest_path.register(view)
         shortest_path.state_changed()
-        _, shortest_distance, _ = view.get_route_params()
         elevation_path.register(view)
         elevation_path.state_changed()
         _, _, elevation_gain = view.get_route_params()

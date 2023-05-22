@@ -7,48 +7,60 @@ import googlemaps
 import sys
 sys.path.append("..")
 from src.Controller.RouteController import RouteController
+from src.utils import Constants
 import json
 
-gmaps = googlemaps.Client(key='AIzaSyCJRDo3QnMDZo_UApNI9GnmODzHw-zWtHw')
+gmaps = googlemaps.Client(key=Constants.GOOGLEMAPS_CLIENT_KEY)
 
 @app.route("/")
 def home():
 	return render_template("index.html")
 
 @app.route('/<request>', methods=['GET'])
-def index(request):
+def go(request):
 	if bool(request):
 
-		request = request.replace("%2C", "," )
-		request = request.replace("%20", " " )
-		start_location, end_location, percentage, minmax_elev_gain = request.split(":")
-		#, algo = request.split(":")
-		print("Input Parameters")
-		print(start_location)
-		print(end_location)
+		request = request.replace("%2C", "," ).replace("%20", " " )
+		start_loc, end_loc, percentage, minmax_elev_gain, algo = request.split(":")
+		
+		print("\n-------------------------------\nInput Parameters\n")
+		print(start_loc)
+		print(end_loc)
 		print(percentage)
 		print(minmax_elev_gain)
-		#print(algo)
+		print(algo)
+		print("-------------------------------\n")
 
-		start_coordinates = [gmaps.geocode(start_location)[0]['geometry']['location']['lat'], gmaps.geocode(start_location)[0]['geometry']['location']['lng']]
-		end_coordinates = [gmaps.geocode(end_location)[0]['geometry']['location']['lat'], gmaps.geocode(end_location)[0]['geometry']['location']['lng']]
+		start_lat = gmaps.geocode(start_loc)[0]['geometry']['location']['lat']
+		start_long = gmaps.geocode(start_loc)[0]['geometry']['location']['lng']
+		end_lat = gmaps.geocode(end_loc)[0]['geometry']['location']['lat']
+		end_long = gmaps.geocode(end_loc)[0]['geometry']['location']['lng']
+		start_coord = [start_lat, start_long]
+		end_coord = [end_lat, end_long]
+
 		view = MapView()
+
 		controller = RouteController()
-		#controller.calculate_final_route(start_coordinates, end_coordinates, percent, minmax_elev_gain, algo, view)
-		controller.calculate_final_route(start_coordinates, end_coordinates, percentage, minmax_elev_gain, view)
-		path_coordinates, total_distance, elevation = view.get_route_params()
-		path_coordinates = [i[::-1] for i in path_coordinates]
+		controller.set_algo(algo)
+
+		controller.calculate_final_route(start_coord, end_coord, minmax_elev_gain, view, percentage)
+		path_coord, elev, total_dist = view.get_route_params()
+		tmp_path_coord = []
+		for coord in path_coord:
+			tmp_path_coord.append(coord[::-1])
+		path_coord = tmp_path_coord
+
 		path = [[]]
-		route_cds = []
 		c = 0
-		print("Path Coordinates:")
-		print(len(path_coordinates), path_coordinates)
+		print("\n-------------------------------\nPath Coordinates:\n")
+		print(len(path_coord), path_coord)
 		
-		for coordinate in path_coordinates:
+		for coord in path_coord:
 			if c == 23:
 				c = 0
 				path.append([])
-			path[-1].append(coordinate)
+			path[-1].append(coord)
 			c += 1
-		print("Elevation:", elevation)
-	return jsonify(origin=start_coordinates, des=end_coordinates,path=path, dis=total_distance, elev=elevation)
+		print("-------------------------------\n")
+		print("Elevation:", elev)
+	return jsonify(origin=start_coord, des=end_coord,path=path, dis=total_dist, elev=elev)

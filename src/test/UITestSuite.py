@@ -51,4 +51,13 @@ map_element = driver.find_element(By.ID, "map")
 assert map_element.is_displayed(), "Map not created"
 time.sleep(2)
 
+reset_button = driver.find_element(By.ID, "reset")
+reset_button.click()
+time.sleep(1)
+
+map_element = driver.find_element(By.ID, "map")
+assert not map_element.is_displayed(), "Map not created"
+
+stats_element = driver.find_element(By.ID, "statistics")
+
 driver.quit()

@@ -20,6 +20,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
         self.model = AlgorithmModel()
         self.shortest_dist = short_dist
         self.elevation_gain = short_dist.get_gain()
+        self.set_algo()
 
     def set_algo(self):
         self._algo = RouteAlgorithms.DIJKSTRA_ALGORITHM.value
@@ -32,7 +33,6 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
     
     def get_elevation_strategy(self):
         return self._elevation_strategy
-
     
     def set_origin(self, origin):
         self._origin = origin
@@ -71,19 +71,23 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
         self.elevation_path = self.calculate_elevation_path()
 
         while self.scaling_factor < 10000:
-            elevation_path = calculate_astar_path(self.graph_map,
+            weight = lambda u, v, d: math.exp(self.minmax \
+                * d[0]['length'] \
+                * (d[0]['grade'] \
+                + d[0]['grade_abs']) / 2) \
+                + math.exp((1 / self.scaling_factor) \
+                * d[0][Constants.LENGTH.value])
+                
+            elev_path = calculate_astar_path(self.graph_map,
                                               source=self._origin,
                                               target=self._destination,
                                               heuristic= None,
-                                              weight=lambda u, v, d:
-                                              math.exp(self.minmax * d[0]['length'] * (
-                                                          d[0]['grade'] + d[0]['grade_abs']) / 2)
-                                              + math.exp((1 / self.scaling_factor) * d[0][Constants.LENGTH.value]))
-            elevation_distance = sum(ox.utils_graph.get_route_edge_attributes(self.graph_map, elevation_path, Constants.LENGTH.value))
-            elevation_gain = self.model.get_path_weight(self.graph_map, elevation_path, ElevationGain.ELEVATION_GAIN.value)
-            if elevation_distance <= (self.path_limit) * self.shortest_dist.get_distance() and \
-                    self.minmax * elevation_gain <= self.minmax * self.elevation_gain:
-                self.elevation_path = elevation_path
-                self.elevation_gain = elevation_gain
+                                              weight=weight)
+            elev_distance = sum(ox.utils_graph.get_route_edge_attributes(self.graph_map, elev_path, Constants.LENGTH.value))
+            elev_gain = self.model.get_path_weight(self.graph_map, elev_path, ElevationGain.ELEVATION_GAIN.value)
+            if elev_distance <= (self.path_limit) * self.shortest_dist.get_distance() and \
+                    self.minmax * elev_gain <= self.minmax * self.elevation_gain:
+                self.elevation_path = elev_path
+                self.elevation_gain = elev_gain
             self.scaling_factor *= 5
         return self.set_path_contents()
