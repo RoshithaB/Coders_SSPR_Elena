@@ -14,6 +14,9 @@ class MapView(Observer):
 		self.total_distance = None
 		self.elevation = None
 
+	def get_route_params(self):
+		return (self.route_coordinates, self.elevation, self.total_distance)
+
 	def update(self, path_model):
 		self.route_coordinates = path_model.get_path()
 		self.total_distance = path_model.get_distance()
@@ -24,7 +27,4 @@ class MapView(Observer):
 		if path_model.get_algo() == RouteAlgorithms.ASTAR_ALGORITHM.value:
 			self.elevation = path_model.get_gain()
 		
-
-	def get_route_params(self):
-		return (self.route_coordinates, self.total_distance, self.elevation)
         
