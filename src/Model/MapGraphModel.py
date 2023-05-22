@@ -1,7 +1,4 @@
-#MapGraph Model Interface
 import osmnx as ox
-#from haversine import haversine, Unit
-# import haversine
 import os
 import pickle as pkl
 import numpy as np
@@ -21,9 +18,12 @@ class MapGraphModel:
         self.gmap_api_key = Constants.GOOGLEMAPS_CLIENT_KEY.value
         self.isMapLoaded = os.path.exists(self.saved_map_path)
     
+    """
+    Given latitudes and longitudes of two nodes, returns the distance between them.
+    """ 
     def dist_nodes(self,lat1,long1,lat2,long2):
-		# Given latitudes and longitudes of two nodes, returns the distance between them.
-        radius=6371008.8 # Earth radius
+		
+        radius=6371008.8 
         
         lat1, long1 = np.radians(lat1), np.radians(long1)
         lat2, long2 = np.radians(lat2),np.radians(long2)
@@ -34,10 +34,11 @@ class MapGraphModel:
         temp2 = 2 * np.arctan2(np.sqrt(temp1), np.sqrt(1 - temp1))
         return radius * temp2
 
+    """
+    This is the method for adding the graph's nodes' distances from the destination node.
+    """
     def find_dist_to_destination(self, dest_node):
-        """
-        This is the method for adding the graph's nodes' distances from the destination node.
-        """
+       
         end_node = self.G.nodes[ox.get_nearest_node(self.G, point=dest_node)]
         for node, data in self.G.nodes(data=True):
             node_lat = self.G.nodes[node]['x']
@@ -46,11 +47,13 @@ class MapGraphModel:
             last_long = end_node['y']
             data['dist_from_dest'] = self.dist_nodes(last_lat,last_long,node_lat,node_long)
         return self.G
-
+    
+    """
+    This is the method for returning a graph with edge grades and elevation 
+    information added to the graph nodes.
+    """
     def get_map_graph(self, dest_node):
-        """
-        This is the method for returning a graph with edge grades and elevation information added to the graph nodes.
-        """
+        
         if not self.isMapLoaded:
             print("Fetching the Map")
             self.G = ox.graph_from_point(self.initial_point, dist=20000, network_type='walk')

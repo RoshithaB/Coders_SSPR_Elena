@@ -1,4 +1,3 @@
-#This is the observable model
 from src.Model import *
 
 class Observable:

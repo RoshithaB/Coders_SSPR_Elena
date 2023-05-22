@@ -48,7 +48,7 @@ class MVCTestSuite(unittest.TestCase):
         #print(controller.get_elevation_strategy())
         #print(controller.get_algo())
         #print(elevation_path.get_algo())
-        _, _, elevation_gain = view.get_route_params()
+        _, elevation_gain, _  = view.get_route_params()
         #print(elevation_gain)
         print(model.get_elevation_strategy())
         assert controller.get_elevation_strategy() == "max"
@@ -83,11 +83,11 @@ class MVCTestSuite(unittest.TestCase):
         shortest_path.state_changed()
         elevation_path.register(view)
         elevation_path.state_changed()
-        _, _, elevation_gain = view.get_route_params()
+        _, elevation_gain , _ = view.get_route_params()
         print(model.get_elevation_strategy())
         assert controller.get_elevation_strategy() == "min"
         # assert controller.get_algo() == "Dijkstra Algorithm."
-        assert elevation_path.get_algo() == "A* Algorithm.."
+        assert elevation_path.get_algo() == "A* Algorithm."
         assert elevation_gain == elevation_path.get_gain()
         #assert model.get_elevation_strategy() == "min"
         
