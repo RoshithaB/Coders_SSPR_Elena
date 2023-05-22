@@ -1,9 +1,9 @@
-
+#This is the observable model
 from src.Model import *
 
 class Observable:
     """
-        This is an Abstract class for all methods of an Observable
+         All methods of an observable are contained in this class.
     """
     def __init__(self):
         self.isStateChange = False #flag to keep track of state change.
@@ -11,26 +11,26 @@ class Observable:
     
     """
         Register an observer
-       @param obs = observer that needs to be registered
+       @param obs = observer tp register.
     """
     def register(self, obs):
         self.observers.add(obs)
     
     """
         Unregister a registered observer
-        @param obs = observer that needs to be unregistered
+        @param obs = observer to unregister
     """
     def unegister(self, obs):
         self.observers.remove(obs)
     
     """
-        Method to notify all observers when a state is changed
+        Method to alert all observers when a state changes.
     """
     def state_changed(self):
         pass
 
     """
-        To get the current state
+        To get current state
         @return current state flag
     """
     def get_state(self):

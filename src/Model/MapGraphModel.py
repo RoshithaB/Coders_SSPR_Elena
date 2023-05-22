@@ -1,3 +1,4 @@
+#MapGraph Model Interface
 import osmnx as ox
 #from haversine import haversine, Unit
 # import haversine
@@ -10,7 +11,7 @@ import sys
 
 class MapGraphModel:
     """
-    Class providing the methods to create a graph with elevation details for a selected destination.
+    Graph making techniques for a selected destination are provided by this class.
     """
     def __init__(self):
         self.G= None
@@ -35,7 +36,7 @@ class MapGraphModel:
 
     def find_dist_to_destination(self, dest_node):
         """
-        Method to add distances from dest node to all nodes in the graph.
+        This is the method for adding the graph's nodes' distances from the destination node.
         """
         end_node = self.G.nodes[ox.get_nearest_node(self.G, point=dest_node)]
         for node, data in self.G.nodes(data=True):
@@ -48,7 +49,7 @@ class MapGraphModel:
 
     def get_map_graph(self, dest_node):
         """
-        Method to return graph with elevation details and edge grades added to the graph nodes.
+        This is the method for returning a graph with edge grades and elevation information added to the graph nodes.
         """
         if not self.isMapLoaded:
             print("Fetching the Map")

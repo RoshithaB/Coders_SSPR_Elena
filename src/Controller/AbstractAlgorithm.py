@@ -1,4 +1,4 @@
-
+#This is abstract algorithm interface.
 from abc import ABC
 from abc import abstractmethod
 
