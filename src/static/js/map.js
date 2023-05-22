@@ -1,15 +1,14 @@
 function initAutocomplete() {
-  var directionsRenderer = new google.maps.DirectionsRenderer();
-  directionsService = new google.maps.DirectionsService;
-  directionsDisplay = new google.maps.DirectionsRenderer({
+  const directionsService = new google.maps.DirectionsService();
+  const directionsDisplay = new google.maps.DirectionsRenderer({
     polylineOptions: {
       strokeColor: "red"
     }
   });
-  markers = new Map();
-  var bounds = new google.maps.LatLngBounds();
+  const markers = new Map();
+  const bounds = new google.maps.LatLngBounds();
 
-  map = new google.maps.Map(document.getElementById("map"), {
+  const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 42.3732, lng: -72.5199 },
     zoom: 13,
     mapTypeId: "roadmap",
@@ -18,10 +17,9 @@ function initAutocomplete() {
   directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-  // Create the search box and link it to the UI element.
-  var start = document.getElementById("start");
-  var end = document.getElementById("end");
-  //var submit = document.getElementById("submit").addEventListener("change", onChangeHandler);
+  const start = document.getElementById("start");
+  const end = document.getElementById("end");
+
   addMarkerOnMap(start, map, markers, bounds, 'start');
   addMarkerOnMap(end, map, markers, bounds, 'end');
 }
