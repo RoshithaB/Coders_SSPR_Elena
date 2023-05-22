@@ -4,6 +4,7 @@ from datetime import datetime
 from src.View.Observer import Observer
 from .. import app
 import json
+from src.utils import RouteAlgorithms
 
 class MapView(Observer):
 
@@ -16,9 +17,13 @@ class MapView(Observer):
 	def update(self, path_model):
 		self.route_coordinates = path_model.get_path()
 		self.total_distance = path_model.get_distance()
-		
-		if path_model.get_path_flag() == 2:
+
+		if path_model.get_algo() == RouteAlgorithms.DIJKSTRA_ALGORITHM.value:
 			self.elevation = path_model.get_gain()
+		
+		if path_model.get_algo() == RouteAlgorithms.ASTAR_ALGORITHM.value:
+			self.elevation = path_model.get_gain()
+		
 
 	def get_route_params(self):
 		return (self.route_coordinates, self.total_distance, self.elevation)

@@ -20,7 +20,7 @@ class AlgorithmModel:
         self._algorithm = None
         self._path_limit = None
         self._elevation_strategy = None
-        self._algo_flag = 1
+        #self._algo_flag = 1
         self._heuristic = None
 
     def set_graph(self, graph):
@@ -28,12 +28,6 @@ class AlgorithmModel:
     
     def get_graph(self):
         return self.graph
-    
-    def set_algo_flag(self, algo_flag):
-        self.algo_flag = algo_flag
-    
-    def get_algo_flag(self):
-        return self.algo_flag
 
     def set_path_limit(self, path_limit):
         self.path_limit = path_limit

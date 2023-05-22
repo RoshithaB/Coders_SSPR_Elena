@@ -102,7 +102,6 @@ class AlgorithmController():
                                             for route_node in self.elevation_path])
         path_model.set_distance(
             sum(ox.utils_graph.get_route_edge_attributes(self.graph, self.elevation_path, LENGTH)))
-        path_model.set_path_flag(2)
 
         return path_model
 

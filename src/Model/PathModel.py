@@ -12,7 +12,6 @@ class PathModel(Observable):
         self.distance = 0.0
         self.origin = None, None
         self.destination = None, None
-        self.path_flag = 1
         self.observers = set() #The set of observers that subscribe to be notified.
     
     """
@@ -48,12 +47,6 @@ class PathModel(Observable):
     def set_distance(self, distance):
         self.distance = distance
         self.state_changed()
-    
-    def set_path_flag(self, path_flag):
-        self.path_flag = path_flag
-    
-    def get_path_flag(self):
-        return self.path_flag
 
     def get_algo(self):
         return self.algo

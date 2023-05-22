@@ -68,7 +68,6 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
                                             for route_node in self.elevation_path])
         path_model.set_distance(
             sum(ox.utils_graph.get_route_edge_attributes(self.graph_map, self.elevation_path, Constants.LENGTH.value)))
-        path_model.set_path_flag(2)
         return path_model
 
     def fetch_route_with_elevation(self):

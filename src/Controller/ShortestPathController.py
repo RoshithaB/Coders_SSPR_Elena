@@ -37,7 +37,6 @@ class ShortestPathController:
             
         self.shortest_dist = sum(ox.utils_graph.get_route_edge_attributes(self.G,self.shortest_path, Constants.LENGTH.value))
         path_model.set_distance(self.shortest_dist)
-        path_model.set_path_flag(1)
         return path_model
 
     def get_shortest_path(self, start, end):
