@@ -65,8 +65,7 @@
                     <label class="input-group-text" for="elevation">Elevation</label>
                   </div>
                   <select class="form-select" id="elevation">
-                    <option selected></option>
-                    <option value="max">Maximum</option>
+                    <option value="max" selected>Maximum</option>
                     <option value="min">Minimum</option>
                   </select>
                 </div>
@@ -77,9 +76,8 @@
                     <label class="input-group-text" for="algorithm">Algorithm</label>
                   </div>
                   <select class="form-select" id="algorithm">
-                    <option selected></option>
                     <option value="dijkstra">Dijkstra</option>
-                    <option value="a-star">A-Star</option>
+                    <option value="a-star" selected>A-Star</option>
                   </select>
                 </div>
               </div>
@@ -113,7 +111,9 @@
         $.get("http://127.0.0.1:5000/"+ encodeURIComponent($("#start").val()) + ":" 
         + encodeURIComponent($("#end").val()) + ":" 
         + encodeURIComponent($("#percent").val()) + ":" 
-        + encodeURIComponent($("#elevation").val())).done(function (data) {
+        + encodeURIComponent($("#elevation").val()) + ":"
+        + encodeURIComponent($("#algorithm").val()))
+        .done(function (data) {
           start = data.origin;
           end = data.des
           path = data.path;
