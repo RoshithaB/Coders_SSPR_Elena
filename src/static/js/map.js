@@ -60,13 +60,10 @@ google.maps.event.addListener(autocomplete, 'place_changed', function () {
   // Create a marker for each place.
 
   if(markers.has(key)) {
-      //alert(markers.get(box));
       markers.get(key).setMap(null);
       markers.delete(key);
   }
   markers.set(key, marker);
-  //alert(markers.get('a'));
-  //markers.set('a', marker)
   bounds.extend(marker.position);
   map.fitBounds(bounds);
   var zoom = map.getZoom();
@@ -101,8 +98,12 @@ function showPathOnMap(start, end, path, distance, elevation){
 }
 
 function removeMarker() {
-  markers.get('start').setMap(null);
-  markers.get('end').setMap(null);
+  if(markers.has('start')) {
+    markers.get('start').setMap(null);
+  }
+  if(markers.has('end')) {
+    markers.get('end').setMap(null);
+  }
   markers.clear();
   map.setCenter({lat:42.3732, lng:-72.5199});
   map.setZoom(13);
@@ -141,10 +142,14 @@ function setRouteStatistics(distance, elevation) {
   distance = distance/1609.344;
   distance = Math.round(distance * 100) / 100;
   elevation = Math.round(elevation * 100) / 100;
-  var routeStats = "<strong>Total Distance:</strong><label style='text-align:center'> " + distance + " miles"+ "</label><br><strong>Elevation Gain:</strong><label style='text-align:center'> " + elevation+ " metres"+"</label>";
-  // document.getElementById("statistics").innerHTML = routeStats;
+  var routeStats = `<b>Total Distance:</b> ${distance} miles`;
+  routeStats += '<br>';
+  routeStats += `<b>Elevation Gain:</b> ${elevation} metres`;
+  document.getElementById("statistics").innerHTML = routeStats;
+  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+  $("#info").show();
 }
 
-// function resetRouteStatistics() {
-//   document.getElementById("statistics").innerHTML = "";
-// }
+function resetRouteStatistics() {
+  document.getElementById("statistics").innerHTML = "";
+}
