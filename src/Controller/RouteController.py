@@ -1,6 +1,5 @@
 
 from . import ShortestPathController
-#from . import AlgorithmController
 from . import AStarController
 from . import DijsktraController
 from src.utils import ElevationStrategy, RouteAlgorithms

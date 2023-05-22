@@ -40,6 +40,8 @@ class ShortestPathController:
         return path_model
 
     def get_shortest_path(self, start, end):
+        print(start)
+        print(end)
         """
         Method to compute shortest path using weights on the edges.
         """
