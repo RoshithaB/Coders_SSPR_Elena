@@ -7,7 +7,7 @@ import googlemaps
 import sys
 sys.path.append("..")
 from src.Controller.RouteController import RouteController
-from src.utils import Constants
+from src.utils import Constants, RouteAlgorithms
 import json
 
 gmaps = googlemaps.Client(key=Constants.GOOGLEMAPS_CLIENT_KEY.value)
@@ -41,7 +41,10 @@ def go(request):
 		view = MapView()
 
 		controller = RouteController()
-		controller.set_algo(algo)
+		if algo == 'a-star':
+			controller.set_algo(RouteAlgorithms.ASTAR_ALGORITHM.value)
+		else:
+			controller.set_algo(RouteAlgorithms.DIJKSTRA_ALGORITHM.value)
 
 		controller.calculate_final_route(start_coord, end_coord, minmax_elev_gain, view, percentage)
 		path_coord, elev, total_dist = view.get_route_params()
