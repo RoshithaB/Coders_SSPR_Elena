@@ -8,7 +8,7 @@ from src.webapp import *
 from geopy.geocoders import Nominatim
 from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.MapGraphModel import MapGraphModel
-from Controller import AStarController, ShortestPathController
+from Controller import AStarController, ShortestPathController, DijsktraController
 from src.View.MapView import MapView
 import warnings
 import os
@@ -108,7 +108,101 @@ class AlgorithmTestSuite(unittest.TestCase):
                                     should always be greater than or equal to the shortest distance."
         
         # assert elevation as well
+
+    def test_astar_path_min(self):
+        destination = "Brandywine Apartments, Brandywine, Amherst, MA, USA"
+        origin = "Boulders Drive, Amherst, MA, USA"
+        geocode_result = gmaps.geocode(origin)
+        origin_location = [geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']]
+        geocode_result = gmaps.geocode(destination)
+        destination_location = [geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']]
+        path_limit = 100
+        elevation_strategy = "min"
+
+        controller = AStarController.AStarController()
+        shortest_route_controller = ShortestPathController.ShortestPathController()
+
+        model = AlgorithmModel()
+        graphModel = MapGraphModel()
+        model.set_graph(graphModel.get_map_graph(destination_location))
+        shortest_route_controller.G = graphModel.G
+        shortest_path = shortest_route_controller.get_shortest_path(origin_location, destination_location)
+        view = MapView()
+        controller.set_contents(model.get_graph(), shortest_path.get_origin(), shortest_path.get_destination(), None, path_limit, 100, 
+                                elevation_strategy, shortest_path)
+        elevation_path = controller.fetch_route_with_elevation()
+        shortest_path.register(view)
+        shortest_path.state_changed()
+        _, shortest_distance, _ = view.get_route_params()
+        elevation_path.register(view)
+        elevation_path.state_changed()
+        _, astar_distance, _ = view.get_route_params()
+        assert astar_distance >= shortest_distance, "Elevation distance \
+                                    should always be greater than or equal to the shortest distance."
         
+    def test_dijsktra_path_max(self):
+        destination = "Brandywine Apartments, Brandywine, Amherst, MA, USA"
+        origin = "Boulders Drive, Amherst, MA, USA"
+        geocode_result = gmaps.geocode(origin)
+        origin_location = [geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']]
+        geocode_result = gmaps.geocode(destination)
+        destination_location = [geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']]
+        path_limit = 100
+        elevation_strategy = "max"
+
+        controller = DijsktraController.DijsktraController()
+        shortest_route_controller = ShortestPathController.ShortestPathController()
+
+        model = AlgorithmModel()
+        graphModel = MapGraphModel()
+        model.set_graph(graphModel.get_map_graph(destination_location))
+        shortest_route_controller.G = graphModel.G
+        shortest_path = shortest_route_controller.get_shortest_path(origin_location, destination_location)
+        view = MapView()
+        controller.set_contents(model.get_graph(), shortest_path.get_origin(), shortest_path.get_destination(), path_limit, 100, 
+                                elevation_strategy, shortest_path)
+        elevation_path = controller.fetch_route_with_elevation()
+        shortest_path.register(view)
+        shortest_path.state_changed()
+        _, shortest_distance, _ = view.get_route_params()
+        elevation_path.register(view)
+        elevation_path.state_changed()
+        _, astar_distance, _ = view.get_route_params()
+        assert astar_distance >= shortest_distance, "Elevation distance \
+                                    should always be greater than or equal to the shortest distance."
+        
+    def test_dijsktra_path_min(self):
+        destination = "Brandywine Apartments, Brandywine, Amherst, MA, USA"
+        origin = "Boulders Drive, Amherst, MA, USA"
+        geocode_result = gmaps.geocode(origin)
+        origin_location = [geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']]
+        geocode_result = gmaps.geocode(destination)
+        destination_location = [geocode_result[0]['geometry']['location']['lat'], geocode_result[0]['geometry']['location']['lng']]
+        path_limit = 100
+        elevation_strategy = "max"
+
+        controller = DijsktraController.DijsktraController()
+        shortest_route_controller = ShortestPathController.ShortestPathController()
+
+        model = AlgorithmModel()
+        graphModel = MapGraphModel()
+        model.set_graph(graphModel.get_map_graph(destination_location))
+        shortest_route_controller.G = graphModel.G
+        shortest_path = shortest_route_controller.get_shortest_path(origin_location, destination_location)
+        view = MapView()
+        controller.set_contents(model.get_graph(), shortest_path.get_origin(), shortest_path.get_destination(), path_limit, 100, 
+                                elevation_strategy, shortest_path)
+        elevation_path = controller.fetch_route_with_elevation()
+        shortest_path.register(view)
+        shortest_path.state_changed()
+        _, shortest_distance, _ = view.get_route_params()
+        elevation_path.register(view)
+        elevation_path.state_changed()
+        _, astar_distance, _ = view.get_route_params()
+        assert astar_distance >= shortest_distance, "Elevation distance \
+                                    should always be greater than or equal to the shortest distance."
+    
+
 
 if __name__ == '__main__':
     unittest.main()
