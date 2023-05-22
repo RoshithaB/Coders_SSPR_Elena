@@ -133,10 +133,10 @@ class AlgorithmTestSuite(unittest.TestCase):
         elevation_path = controller.fetch_route_with_elevation()
         shortest_path.register(view)
         shortest_path.state_changed()
-        _, shortest_distance, _ = view.get_route_params()
+        _, _, shortest_distance, = view.get_route_params()
         elevation_path.register(view)
         elevation_path.state_changed()
-        _, astar_distance, _ = view.get_route_params()
+        _, _,  astar_distance = view.get_route_params()
         assert astar_distance >= shortest_distance, "Elevation distance \
                                     should always be greater than or equal to the shortest distance."
         
@@ -164,10 +164,10 @@ class AlgorithmTestSuite(unittest.TestCase):
         elevation_path = controller.fetch_route_with_elevation()
         shortest_path.register(view)
         shortest_path.state_changed()
-        _, shortest_distance, _ = view.get_route_params()
+        _, _, shortest_distance = view.get_route_params()
         elevation_path.register(view)
         elevation_path.state_changed()
-        _, astar_distance, _ = view.get_route_params()
+        _, _, astar_distance = view.get_route_params()
         assert astar_distance >= shortest_distance, "Elevation distance \
                                     should always be greater than or equal to the shortest distance."
         
@@ -195,14 +195,20 @@ class AlgorithmTestSuite(unittest.TestCase):
         elevation_path = controller.fetch_route_with_elevation()
         shortest_path.register(view)
         shortest_path.state_changed()
-        _, shortest_distance, _ = view.get_route_params()
+        _, _, shortest_distance = view.get_route_params()
         elevation_path.register(view)
         elevation_path.state_changed()
-        _, astar_distance, _ = view.get_route_params()
+        _, _, astar_distance = view.get_route_params()
         assert astar_distance >= shortest_distance, "Elevation distance \
                                     should always be greater than or equal to the shortest distance."
     
 
 
 if __name__ == '__main__':
-    unittest.main()
+    test_suite = unittest.TestLoader().loadTestsFromTestCase(AlgorithmTestSuite)
+
+    # Create a test runner
+    test_runner = unittest.TextTestRunner(verbosity=1)  # Set verbosity=2 for verbose output
+
+    # Run the tests
+    test_runner.run(test_suite)

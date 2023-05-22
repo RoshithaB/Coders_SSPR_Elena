@@ -92,7 +92,6 @@ class MVCTestSuite(unittest.TestCase):
         #assert model.get_elevation_strategy() == "min"
         
 
-
 if __name__ == '__main__':
     os.chdir("../../")
     unittest.main()
