@@ -4,6 +4,8 @@ import osmnx as ox
 import os
 import pickle as pkl
 import numpy as np
+import sys
+
 
 class MapGraphModel:
     """
@@ -13,6 +15,7 @@ class MapGraphModel:
         self.G= None
         self.initial_point = (42.3867637, -72.5322402) # Co-ordinates of UMass Amherst
         self.saved_map_path = "src/graph.p"
+        self.saved_map_path = os.path.abspath(self.saved_map_path)
         self.gmap_api_key = "AIzaSyCJRDo3QnMDZo_UApNI9GnmODzHw-zWtHw"
         self.isMapLoaded = os.path.exists(self.saved_map_path)
     
@@ -51,10 +54,11 @@ class MapGraphModel:
             self.G = ox.graph_from_point(self.initial_point, dist=20000, network_type='walk')
 
             # appending elevation data to each node and populating the graph
-            self.G = ox.add_node_elevations(G, api_key=self.gmap_api_key) 
+            self.G = ox.add_node_elevations(self.G, api_key=self.gmap_api_key) 
             pkl.dump(self.G, open(self.saved_map_path, "wb"))
             print("Stored the Map")
         else:
-            self.G = pkl.load(open(self.saved_map_path, "rb"))
-            self.G = ox.add_edge_grades(self.G)
+            with open(self.saved_map_path, "rb") as file:
+                self.G = pkl.load(file)
+                self.G = ox.add_edge_grades(self.G)
         return self.find_dist_to_destination(dest_node)
