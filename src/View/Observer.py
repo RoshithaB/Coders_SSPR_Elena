@@ -1,3 +1,4 @@
+#This is the Observer Interface.
 from abc import abstractmethod
 from src import *
 from abc import ABC, abstractmethod
