@@ -16,6 +16,7 @@ class Constants(Enum):
     LENGTH = "length"
     WEIGHT = "weight"
     ELEVATION = "elevation"
+    GOOGLEMAPS_CLIENT_KEY = "AIzaSyCJRDo3QnMDZo_UApNI9GnmODzHw-zWtHw"
 
 class RouteAlgorithms(Enum):
     ASTAR_ALGORITHM = "A* Algorithm."
