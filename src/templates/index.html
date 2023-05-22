@@ -21,22 +21,22 @@
     </style>
   </head>
   <body>
-    <div class="row navbar-expand-lg navbar-light bg-secondary shadow-sm p-1">
+    <div class="row navbar-expand-lg navbar-light bg-secondary shadow-sm p-1" style="z-index: 1;">
       <center>
         <a href="#" class="navbar-brand">
-          <span class="font-weight-bold">EleNa: Elevation-based Navigation Application</span>
+          <span class="font-weight-bold text-white">Elevation-based Navigation</span>
         </a>
       </center>
     </div>
     <div class="container-fluid">
       <div class="row">
-        <div class="card m-3" style="width: 20%">
+        <div class="card m-3" style="position: absolute; bottom: 0; top: 40px; width: 20%;">
           <div class="card-header text-center bg-secondary text-white mt-3">
-            <h5 class="card-title">Plan your route</h5>
+            <label>Plan your route</label>
           </div>
           <div class="form-container card-body">
             <form action="javascript:void(0);" id="dataForm">
-              <div class="form-group mt-3">
+              <div class="form-group mt-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Start</span>
@@ -89,10 +89,19 @@
               </div>
             </form>
           </div>
+          <div id="info mt-2">
+            <div class="row border p-2 text-center bg-secondary text-white">
+              <label >Statistics</label>
+            </div>
+            <p id="statistics" style="margin-top: 2px;"></p>
+            <div class="row border p-2 text-center bg-secondary text-white" ><label >Directions</label></div>
+            <div class="row border p-2 overflow-auto" id="directionsPanel" style="height: 5%;"></div>
+          </div>
         </div>
         <div id="wrapper">
           <div id="map"></div>
         </div>
+        
       </div>
     </div>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJRDo3QnMDZo_UApNI9GnmODzHw-zWtHw&libraries=places&callback=initAutocomplete"></script>
@@ -119,9 +128,7 @@
       $("#reset").click(function(){
         removeMarker();
         removePathFromMap();
-        // resetRouteStatistics();
-        // document.getElementById("dataForm").reset();
-        // $('#dataForm')[0].reset();
+        resetRouteStatistics();
       })
     </script>
   </body>
