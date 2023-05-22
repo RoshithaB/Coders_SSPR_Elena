@@ -5,8 +5,8 @@ from abc import abstractmethod
 class AbstractAlgorithm(ABC):
     def __init__(self):
         self.model = None
-        self.origin = None
-        self.destination = None
+        self._origin = None
+        self._destination = None
         self.graph_map = None
         self._elevation_strategy = None
         self._algo = None
@@ -20,17 +20,25 @@ class AbstractAlgorithm(ABC):
         pass
         
     @abstractmethod
-    def set_elevation_strategy(self):
+    def set_elevation_strategy(self, elevation_strategy):
         pass
     
     @abstractmethod
     def get_elevation_strategy(self):
         pass
-    
+
     @abstractmethod
-    def set_scaling_factor(self):
+    def set_origin(self, origin):
         pass
 
     @abstractmethod
-    def get_scaling_factor(self):
+    def set_destination(self, destination):
+        pass
+
+    @abstractmethod
+    def get_origin(self, origin):
+        pass
+
+    @abstractmethod
+    def get_destination(self, destination):
         pass

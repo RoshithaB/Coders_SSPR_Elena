@@ -10,45 +10,55 @@ from src.utils import Constants, RouteAlgorithms
 
 class AStarController(AbstractAlgorithm.AbstractAlgorithm):
     def set_contents(self, graph, origin, destination, heuristic, path_limit, scaling_factor, elevation_strategy, short_dist):
-        self.graph_map = graph
-        self.origin = origin
-        self.destination = destination
+        self.set_origin(origin)
+        self.set_destination(destination)
+        self.set_elevation_strategy(elevation_strategy)
         self.heuristic = heuristic
         self.path_limit = path_limit
         self.scaling_factor = scaling_factor
-        self.elevation_strategy = elevation_strategy
+        self.graph_map = graph
         self.elevation_path = None
         self.model = AlgorithmModel()
         self.shortest_dist = short_dist
         self.elevation_gain = short_dist.get_gain()
 
-    def dist(self, a, b):
-        return self.graph_map.nodes[a]['dist_from_dest'] * 1 / self.scaling_factor
-
-    def set_algo(self, algo):
-        self.algo = algo
+    def set_algo(self):
+        self._algo = RouteAlgorithms.ASTAR_ALGORITHM.value
 
     def get_algo(self):
-        return self.algo
+        return self._algo
+    
+    def set_elevation_strategy(self, elevation_strategy):
+        self._elevation_strategy = elevation_strategy
+    
+    def set_minmax(self):
+        self.minmax = 1
+        if self._elevation_strategy == ElevationStrategy.MAX.value:
+            self.minmax = -1
 
     def get_elevation_strategy(self):
         return self.elevation_strategy
     
-    def set_scaling_factor(self):
-        self.scaling_factor = 100
+    def set_origin(self, origin):
+        self._origin = origin
+    
+    def get_origin(self):
+        return self._origin
+    
+    def set_destination(self, destination):
+        self._destination = destination
+    
+    def get_destination(self):
+        return self._destination
 
-    def get_scaling_factor(self):
-        return self.scaling_factor
+    def dist(self, a, b):
+        return self.graph_map.nodes[a]['dist_from_dest'] * 1 / self.scaling_factor
 
+  
     def calculate_elevation_path(self):
-        return nx.shortest_path(self.graph_map, source=self.origin, target=self.destination,
+        return nx.shortest_path(self.graph_map, source=self._origin, target=self._destination,
                                                 weight=Constants.LENGTH.value)
     
-    def set_elevation_strategy(self):
-        self.minmax = 1
-        if self.elevation_strategy == ElevationStrategy.MAX.value:
-            self.minmax = -1
-        
     def set_path_contents(self):
         path_model = PathModel()
         path_model.set_algo(RouteAlgorithms.ASTAR_ALGORITHM.value)
@@ -62,13 +72,13 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
         return path_model
 
     def fetch_route_with_elevation(self):
-        self.set_elevation_strategy()
+        self.set_minmax()
         self.elevation_path = self.calculate_elevation_path()
 
         while self.scaling_factor < 10000:
             elevation_path = calculate_astar_path(self.graph_map,
-                                              source=self.origin,
-                                              target=self.destination,
+                                              source=self._origin,
+                                              target=self._destination,
                                               heuristic= self.dist,
                                               weight=lambda u, v, d:
                                               math.exp(self.minmax * d[0]['length'] * (
