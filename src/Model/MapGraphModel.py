@@ -17,7 +17,7 @@ class MapGraphModel:
         self.initial_point = (42.3867637, -72.5322402) # Co-ordinates of UMass Amherst
         self.saved_map_path = "src/graph.p"
         self.saved_map_path = os.path.abspath(self.saved_map_path)
-        self.gmap_api_key = Constants.GOOGLEMAPS_CLIENT_KEY
+        self.gmap_api_key = Constants.GOOGLEMAPS_CLIENT_KEY.value
         self.isMapLoaded = os.path.exists(self.saved_map_path)
     
     def dist_nodes(self,lat1,long1,lat2,long2):
