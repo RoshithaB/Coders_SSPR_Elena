@@ -32,9 +32,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
     
     def get_elevation_strategy(self):
         return self._elevation_strategy
-    
-    def get_elevation_strategy(self):
-        return self.elevation_strategy
+
     
     def set_origin(self, origin):
         self._origin = origin

@@ -39,7 +39,7 @@ class AlgorithmModel:
         self.elevation_strategy = elevation_strategy
     
     def get_elevation_strategy(self):
-        return self.elevation_strategy
+        return self._elevation_strategy
 
     def set_start_point(self, start_point):
         self.start_point = start_point
