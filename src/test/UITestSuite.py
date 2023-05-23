@@ -1,4 +1,3 @@
-#The UI TestSuite.
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.service import Service

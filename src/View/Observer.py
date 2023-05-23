@@ -1,18 +1,20 @@
-#This is the Observer Interface.
 from abc import abstractmethod
 from src import *
 from abc import ABC, abstractmethod
 from src.Model import Observable
 
 """
-    Interface defining an Observer.
+    An observer's interface is defined.
 """
 class Observer:
 
     """
-       Update method for when the current state changes.
-       @param observable = observable whose state is changed.
+    A method of updating the current state when it changes
+    observable is an observable whose state has changed.
     """
     @abstractmethod
     def update(self, observable):
+        """
+        Update method for when the current state changes.
+        """
         pass

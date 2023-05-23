@@ -1,4 +1,3 @@
-#This is the Test Suit  of the Algorithm
 import unittest
 import networkx as nx
 import sys

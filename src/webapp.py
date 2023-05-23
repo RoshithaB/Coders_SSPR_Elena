@@ -1,4 +1,3 @@
-# Entry point for the application.
 from src.View.MapView import MapView
 from . import app
 from flask import Flask, render_template, request, jsonify
@@ -14,10 +13,16 @@ gmaps = googlemaps.Client(key=Constants.GOOGLEMAPS_CLIENT_KEY.value)
 
 @app.route("/")
 def home():
+	"""
+	Route handler for the home page
+	"""
 	return render_template("index.html")
 
 @app.route('/<request>', methods=['GET'])
 def go(request):
+	"""
+	Route handler for processing the request and generating the route
+	"""
 	if bool(request):
 
 		request = request.replace("%2C", "," ).replace("%20", " " )
