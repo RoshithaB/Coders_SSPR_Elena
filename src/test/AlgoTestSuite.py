@@ -18,17 +18,16 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 class AlgorithmTestSuite(unittest.TestCase):
     """
-    This test suite contains unit test cases to check the graph using small graphs which could be visualized.
-    It also analyzes the algorithms, dijkstra and star, and compares them using various values of extra path limit.
+    This test suite includes unit test cases for inspecting the graph using smaller and visualizer-friendly graphs.
+    Additionally, the algorithms Dijkstra and A* are examined and compared using different extra path limit values.
     """
     G = None
 
     @classmethod
     def setUpClass(self):
         """
-        This is the setup method called before running the test cases once.
-        Returns:
-
+        This is the setup method that is called before the test cases are executed once
+       
         """
         # Creating a test graph.
         G = nx.Graph()
@@ -49,7 +48,7 @@ class AlgorithmTestSuite(unittest.TestCase):
 
     def test_conversions(self):
         """
-        This test is written to check the conversions between the co-ordinates and location.
+        The purpose of this test is to evaluate how well coordinates and location can be converted 
         """
         main_address = "13 Brandywine Drive, Amherst, Massachusetts, United States"
         geocode_result = gmaps.geocode(main_address)
@@ -66,8 +65,7 @@ class AlgorithmTestSuite(unittest.TestCase):
 
     def test_weights_functions(self):
         """
-        This test is written to check if weights are calculated correctly.
-        Returns:
+        This testcase is to check if the weights are computed properly
 
         """
         route = [0, 1, 2, 4]
@@ -76,6 +74,9 @@ class AlgorithmTestSuite(unittest.TestCase):
         assert weight == 23.5
 
     def test_astar_path_max(self):
+        """
+        Test the A* algorithm with the maximum elevation strategy
+        """
         destination = "Brandywine Apartments, Brandywine, Amherst, MA, USA"
         origin = "Boulders Drive, Amherst, MA, USA"
         geocode_result = gmaps.geocode(origin)
@@ -110,6 +111,9 @@ class AlgorithmTestSuite(unittest.TestCase):
         # assert elevation as well
 
     def test_astar_path_min(self):
+        """
+        Test the A* algorithm with the minimum elevation strategy
+        """
         destination = "Brandywine Apartments, Brandywine, Amherst, MA, USA"
         origin = "Boulders Drive, Amherst, MA, USA"
         geocode_result = gmaps.geocode(origin)
@@ -141,6 +145,9 @@ class AlgorithmTestSuite(unittest.TestCase):
                                     should always be greater than or equal to the shortest distance."
         
     def test_dijsktra_path_max(self):
+        """
+        Test the Dijkstra Algorithm with the maximum elevation strategy
+        """
         destination = "Brandywine Apartments, Brandywine, Amherst, MA, USA"
         origin = "Boulders Drive, Amherst, MA, USA"
         geocode_result = gmaps.geocode(origin)
@@ -172,6 +179,9 @@ class AlgorithmTestSuite(unittest.TestCase):
                                     should always be greater than or equal to the shortest distance."
         
     def test_dijsktra_path_min(self):
+        """
+        Test the Dijkstra Algorithm with the minimum elevation strategy
+        """
         destination = "Brandywine Apartments, Brandywine, Amherst, MA, USA"
         origin = "Boulders Drive, Amherst, MA, USA"
         geocode_result = gmaps.geocode(origin)
