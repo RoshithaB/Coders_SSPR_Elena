@@ -10,22 +10,24 @@ from src.Model.MapGraphModel import MapGraphModel
 class RouteController:
     def __init__(self):
         """
-        This method initializes the  route and algorithm attributes
+         This technique sets the route and algorithm properties.
         """
         self.algorithm_model = AlgorithmModel()
         self.shortest_path = None
         self.elevation_path = None
         self.algo = RouteAlgorithms.ASTAR_ALGORITHM.value
 
+    # returns the value of 'algo' attribute
     def get_algo(self, algo):
         return self.algo
 
+    # sets the value of 'algo' attribute to the provided 'algo' value
     def set_algo(self, algo):
         self.algo = algo
 
     def calcuate_elevation_astar_path(self):
         """
-        This method sets the shortest path based on the starting and ending coordinates.
+        The starting and finishing coordinates are used to determine the shortest path.
 
         Args:
             origin:
@@ -47,6 +49,16 @@ class RouteController:
         return astar_controller.fetch_route_with_elevation()
     
     def calcuate_elevation_dijkstra_path(self):
+        """
+        Calculates the elevation-aware path using Dijkstra's algorithm 
+
+        Args:
+            origin:
+            dest:
+
+        Returns:
+            Shortest path model
+        """
         dijkstra_controller = DijsktraController.DijsktraController()
 
         graph = self.algorithm_model.get_graph()
@@ -61,7 +73,7 @@ class RouteController:
 
     def calculate_shortest_path(self, origin, dest):
         """
-        This method sets the shortest path based on the starting and ending coordinates.
+        The starting and finishing coordinates are used to determine the shortest path.
 
         Args:
             origin:
@@ -78,7 +90,7 @@ class RouteController:
 
     def calculate_final_route(self, start, end, elev_gain, map_view, dev_percent):
         """
-        This method gets the final shortest path calculated on the elevation strategy and the path limit specified.
+        Using the elevation strategy and supplied path limit, this method determines the ultimate shortest path.
         Args:
             start:
             end:

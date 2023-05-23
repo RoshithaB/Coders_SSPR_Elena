@@ -1,4 +1,3 @@
-#Controller for the ShortestPath
 import networkx as nx
 import osmnx as ox
 from src.Model.AlgorithmModel import AlgorithmModel
@@ -15,6 +14,13 @@ class ShortestPathController:
     This is the class with methods for calculating the shortest distance between two nodes.
     """
     def __init__(self):
+        """
+        Initializes the ShortestPathController object
+
+        Returns:
+            None
+
+        """
         self.G = None
         self.shortest_path = None
         self.shortest_dist = None
@@ -22,9 +28,11 @@ class ShortestPathController:
         self.end_location = None
         self.model = AlgorithmModel()
 
+    # Sets the graph for calculating the shortest path
     def set_graph(self, G):
         self.G = G
 
+    # sets the contents of the path with calculated data
     def set_path_contents(self):
         path_model = PathModel()
         path_model.set_algo(RouteAlgorithms.SHORTEST_ROUTE_ALGORITHM.value)
@@ -40,12 +48,9 @@ class ShortestPathController:
         path_model.set_distance(self.shortest_dist)
         return path_model
 
+    # calculates the shortest path between two nodes
     def get_shortest_path(self, start, end):
-        print(start)
-        print(end)
-        """
-       Shortest path calculation technique based on edge weights.
-        """
+        
         self.start_location, _ = ox.get_nearest_node(self.G, point=start, return_dist=True)
         self.end_location, _ = ox.get_nearest_node(self.G, point=end, return_dist=True)
         self.shortest_path = nx.shortest_path(self.G, self.start_location, self.end_location, weight=Constants.LENGTH.value)

@@ -10,7 +10,16 @@ from src.utils import Constants, RouteAlgorithms
 
 
 class AStarController(AbstractAlgorithm.AbstractAlgorithm):
+    """
+    This is the class representing a AStar based controller for route calculations.
+    """
     def set_contents(self, graph, origin, destination, heuristic, path_limit, scaling_factor, elevation_strategy, short_dist):
+        """
+        Sets the contents required for AStar Algorithm
+
+        Returns:
+            NONE
+        """
         self.set_origin(origin)
         self.set_destination(destination)
         self.set_elevation_strategy(elevation_strategy)
@@ -24,43 +33,69 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
         self.elevation_gain = short_dist.get_gain()
         self.set_algo()
 
+    # sets the algorithm for A*
     def set_algo(self):
         self._algo = RouteAlgorithms.ASTAR_ALGORITHM.value
 
+    # Returns the algorithm used
     def get_algo(self):
         return self._algo
     
+    # Sets the elevation_strategy
     def set_elevation_strategy(self, elevation_strategy):
         self._elevation_strategy = elevation_strategy
     
+    # sets the monmax value based on elevation_strategy
     def set_minmax(self):
         self.minmax = 1
         if self._elevation_strategy == ElevationStrategy.MAX.value:
             self.minmax = -1
 
+    # Returns the elevation_strategy
     def get_elevation_strategy(self):
         return self._elevation_strategy
     
+    # sets the path origin
     def set_origin(self, origin):
         self._origin = origin
     
+    # returns the origin of the path
     def get_origin(self):
         return self._origin
     
+    # sets the destination of the path
     def set_destination(self, destination):
         self._destination = destination
     
+    # returns the destination of the path
     def get_destination(self):
         return self._destination
-
+    
     def dist(self, a, b):
+        """
+        Calculates the distance between the two nodes
+
+        Args:
+            a: The first node
+            b: The second node
+
+        Returns:
+            The distance between the nodes.
+        """
         return self.graph_map.nodes[a]['dist_from_dest'] * 1 / self.scaling_factor
 
   
     def calculate_elevation_path(self):
+        """
+        Calculates the elevation_path using the A* algorithm
+
+        Returns:
+            The elevation path
+        """
         return nx.shortest_path(self.graph_map, source=self._origin, target=self._destination,
                                                 weight=Constants.LENGTH.value)
     
+    # Sets the contents of the path model
     def set_path_contents(self):
         path_model = PathModel()
         path_model.set_algo(RouteAlgorithms.ASTAR_ALGORITHM.value)
@@ -70,9 +105,16 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
                                             for route_node in self.elevation_path])
         path_model.set_distance(
             sum(ox.utils_graph.get_route_edge_attributes(self.graph_map, self.elevation_path, Constants.LENGTH.value)))
+        # Returns the path model
         return path_model
 
     def fetch_route_with_elevation(self):
+        """
+        Fetches the route with elevation
+
+        Returns:
+            The path model
+        """
         self.set_minmax()
         self.elevation_path = self.calculate_elevation_path()
 
