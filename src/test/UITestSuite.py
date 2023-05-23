@@ -56,9 +56,12 @@ reset_button = driver.find_element(By.ID, "reset")
 reset_button.click()
 time.sleep(1)
 
-map_element = driver.find_element(By.ID, "map")
-assert not map_element.is_displayed(), "Map not created"
-
 stats_element = driver.find_element(By.ID, "statistics")
+statistics_text = stats_element.text
+assert len(statistics_text) == 0
+
+directions_element = driver.find_element(By.ID, "directionsPanel")
+directions_text = directions_element.text
+assert len(directions_text) == 0
 
 driver.quit()

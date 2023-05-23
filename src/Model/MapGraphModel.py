@@ -4,7 +4,12 @@ import pickle as pkl
 import numpy as np
 from src.utils import Constants
 import sys
+import logging
 
+# Configure the logger
+log_file = os.path.join("..", "logging.txt")
+logging.basicConfig(filename=log_file, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class MapGraphModel:
     """

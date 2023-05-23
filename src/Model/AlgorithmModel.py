@@ -1,8 +1,15 @@
 from src.utils import ElevationGain
+import logging
+import os
 
 LENGTH = "length"
 WEIGHT = "weight"
 ELEVATION = "elevation"
+
+# Configure the logger
+log_file = os.path.join("..", "logging.txt")
+logging.basicConfig(filename=log_file, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 class AlgorithmModel:
@@ -25,6 +32,7 @@ class AlgorithmModel:
 
     # set graph to given value
     def set_graph(self, graph):
+        logger.debug("Graph is set.")
         self.graph = graph
 
     # return the graph
@@ -33,6 +41,7 @@ class AlgorithmModel:
     
     # Set path limit to given value
     def set_path_limit(self, path_limit):
+        logger.debug("Path is set.")
         self.path_limit = path_limit
 
     # return the path limit
@@ -41,6 +50,7 @@ class AlgorithmModel:
     
     # Set elevation strategy to the given value
     def set_elevation_strategy(self, elevation_strategy):
+        logger.debug("Elevation strategy is set.")
         self._elevation_strategy = elevation_strategy
 
     # return elevation strategy
@@ -49,6 +59,7 @@ class AlgorithmModel:
     
     # set the start pont to the given value
     def set_start_point(self, start_point):
+        logger.debug("Start point is set.")
         self.start_point = start_point
 
     # set end point to the given value
