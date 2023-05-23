@@ -8,11 +8,11 @@ from src.utils import calculate_astar_path, ElevationGain, ElevationStrategy
 from src.utils import Constants, RouteAlgorithms
 
 class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
-"""
-This is the class representing a Dijkstra based controller for route calculations.
-This controller uses the dijkstra's algorithm to calculate routes
-with considerations for elevation gain, path limit and scaling factor.
-"""
+    """
+    This is the class representing a Dijkstra based controller for route calculations.
+    This controller uses the dijkstra's algorithm to calculate routes
+    with considerations for elevation gain, path limit and scaling factor.
+    """
     def set_contents(self, graph, origin, destination, path_limit, scaling_factor, elevation_strategy, short_dist):
         # set the origin of the route
         self.set_origin(origin)  
@@ -36,7 +36,8 @@ with considerations for elevation gain, path limit and scaling factor.
         self.elevation_path = None 
 
         # Create new algorithmmodel instance
-        self.model = AlgorithmModel() 
+        self.model = AlgorithmModel()
+        self.model.set_elevation_strategy(self.get_elevation_strategy())
 
         # Set the shortest distance
         self.shortest_dist = short_dist 
@@ -89,6 +90,12 @@ with considerations for elevation gain, path limit and scaling factor.
         self.minmax = 1
         if self._elevation_strategy == ElevationStrategy.MAX.value:
             self.minmax = -1
+    
+    # set the model
+    def set_model(self, model):
+        self.model = model
+        self.model.set_elevation_strategy(self.get_elevation_strategy())
+
 
     # create new pathmodel imstace and set algo in path model and 
     # set the elevation gain in the path model

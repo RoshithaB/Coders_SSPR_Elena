@@ -20,15 +20,24 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
         Returns:
             NONE
         """
+        # set the origin of the route
         self.set_origin(origin)
+        # set the destination of the route
         self.set_destination(destination)
+        # set the elevation strategy
         self.set_elevation_strategy(elevation_strategy)
         self.heuristic = heuristic
+        #set the path limit
         self.path_limit = path_limit
+        # set the scaling factor
         self.scaling_factor = scaling_factor
+        # set the graph map
         self.graph_map = graph
         self.elevation_path = None
+
+        # Create new algorithmmodel instance
         self.model = AlgorithmModel()
+        self.model.set_elevation_strategy(self.get_elevation_strategy())
         self.shortest_dist = short_dist
         self.elevation_gain = short_dist.get_gain()
         self.set_algo()
@@ -70,6 +79,11 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
     # returns the destination of the path
     def get_destination(self):
         return self._destination
+    
+    # set the model
+    def set_model(self, model):
+        self.model = model
+        self.model.set_elevation_strategy(self.get_elevation_strategy())
     
     def dist(self, a, b):
         """
