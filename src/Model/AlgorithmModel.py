@@ -71,14 +71,14 @@ class AlgorithmModel:
     # and if the weight type is ElevationGain, return the difference in 
     # elevation b/n the two nodes.
 
-    def get_weight(self, graph, node_1, node_2, weight_type=ElevationGain.NORMAL.value):
+    def get_weight(self, graph, node1, node2, weight_type=ElevationGain.NORMAL.value):
         if weight_type == ElevationGain.NORMAL.value:
             try:
-                return graph.edges[node_1, node_2, 0][LENGTH]
+                return graph.edges[node1, node2, 0][LENGTH]
             except:
-                return graph.edges[node_1, node_2][WEIGHT]
+                return graph.edges[node1, node2][WEIGHT]
         elif weight_type == ElevationGain.ELEVATION_GAIN.value:
-            return max(0.0, graph.nodes[node_2][ELEVATION] - graph.nodes[node_1][ELEVATION])
+            return max(0.0, graph.nodes[node2][ELEVATION] - graph.nodes[node1][ELEVATION])
         
     # By iterating over each pair of nodes in the route and adding 
     # the weight of the edge between them, 

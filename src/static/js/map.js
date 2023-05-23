@@ -157,3 +157,8 @@ function setRouteStatistics(distance, elevation) {
 function resetRouteStatistics() {
   document.getElementById("statistics").innerHTML = "";
 }
+
+function resetForm() {
+  $("#start").val("");
+  $("#end").val("");
+}

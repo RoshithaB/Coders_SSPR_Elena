@@ -26,18 +26,21 @@ class MapGraphModel:
     """
     Given latitudes and longitudes of two nodes, returns the distance between them.
     """ 
-    def dist_nodes(self,lat1,long1,lat2,long2):
-		
-        radius=6371008.8 
+    def dist_nodes(self, lat1, long1, lat2, long2):
+        earth_radius = 6371008.8
+
+        lat1_rad, long1_rad = np.radians(lat1), np.radians(long1)
+        lat2_rad, long2_rad = np.radians(lat2), np.radians(long2)
+
+        delta_long, delta_lat = long2_rad - long1_rad, lat2_rad - lat1_rad
+
+        tmp1 = np.sin(delta_lat / 2) ** 2
+        tmp2 = np.cos(lat1_rad) * np.cos(lat2_rad) * np.sin(delta_long / 2) ** 2
+        tmp = tmp1 + tmp2
         
-        lat1, long1 = np.radians(lat1), np.radians(long1)
-        lat2, long2 = np.radians(lat2),np.radians(long2)
-
-        dlong,dlat = long2 - long1,lat2 - lat1
-
-        temp1 = np.sin(dlat / 2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlong / 2)**2
-        temp2 = 2 * np.arctan2(np.sqrt(temp1), np.sqrt(1 - temp1))
-        return radius * temp2
+        distance = 2 * np.arctan2(np.sqrt(tmp), np.sqrt(1 - tmp))
+        
+        return earth_radius * distance
 
     """
     This is the method for adding the graph's nodes' distances from the destination node.
