@@ -106,6 +106,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
     # set the model
     def set_model(self, model):
         self.model = model
+        logger.debug("model is set on thedcontroller.")
         self.model.set_elevation_strategy(self.get_elevation_strategy())
 
 

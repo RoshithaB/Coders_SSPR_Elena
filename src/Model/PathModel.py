@@ -89,6 +89,7 @@ class PathModel(Observable):
     # set start location to given value  and notify the state change
     def set_start_location(self, origin):
         self.origin = origin
+        logger.debug("Start location is set for Path Model.")
         self.state_changed()
 
     # return the start ocation
@@ -97,6 +98,7 @@ class PathModel(Observable):
     # set the end location to the given value and notify the state change
     def set_end_location(self, destination):
         self.destination = destination
+        logger.debug("Final location is set for Path Model.")
         self.state_changed()
     
     # return the end location
@@ -105,5 +107,6 @@ class PathModel(Observable):
 
     # Iterate overall observers
     def state_changed(self):
+        logger.debug("State is change in Path Model.")
         for observer in self.observers:
             observer.update(self)

@@ -126,6 +126,7 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
                                             for route_node in self.elevation_path])
         path_model.set_distance(
             sum(ox.utils_graph.get_route_edge_attributes(self.graph_map, self.elevation_path, Constants.LENGTH.value)))
+        logger.debug("Set the contents of path model.")
         # Returns the path model
         return path_model
 
