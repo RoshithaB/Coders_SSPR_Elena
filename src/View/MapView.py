@@ -7,9 +7,9 @@ import json
 from src.utils import RouteAlgorithms
 
 class MapView(Observer):
-"""
-A class representing a map view thats observes changes in path model.
-"""
+	"""
+	A class representing a map view thats observes changes in path model.
+	"""
 	def __init__(self):
 		super().__init__()
 		self.route_coordinates = None
