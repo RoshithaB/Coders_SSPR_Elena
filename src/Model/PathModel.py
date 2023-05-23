@@ -1,4 +1,11 @@
 from src.Model.Observable import Observable
+import logging
+import os
+
+# Configure the logger
+log_file = os.path.join("..", "logging.txt")
+logging.basicConfig(filename=log_file, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class PathModel(Observable):
     """
@@ -32,12 +39,14 @@ class PathModel(Observable):
     # set algorithm to given value and notify observers that the state has changed
     def set_algo(self, algo):
         self.algo = algo
+        logger.debug("Algorithm is set for Path Model.")
         self.state_changed()
 
     # Set the elevation gain to given value and notify the 
     # observers that the state has changed
     def set_elevation_gain(self, gain):
         self.gain = gain
+        logger.debug("Elevation gain is set for Path Model.")
         self.state_changed()
 
     # Set the drop to the given value and notify the observers of the state change
@@ -48,11 +57,13 @@ class PathModel(Observable):
     # set the path to the given value and notify the state change
     def set_path(self, path):
         self.path = path
+        logger.debug("Path is set for Path Model.")
         self.state_changed()
 
     # set the distance to the given value and notify the state change
     def set_distance(self, distance):
         self.distance = distance
+        logger.debug("Distance is set for Path Model.")
         self.state_changed()
 
     # return the algorithm

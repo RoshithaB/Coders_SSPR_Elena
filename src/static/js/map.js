@@ -21,7 +21,6 @@ function initAutocomplete() {
   // Create the search box and link it to the UI element.
   var start = document.getElementById("start");
   var end = document.getElementById("end");
-  //var submit = document.getElementById("submit").addEventListener("change", onChangeHandler);
   addMarkerOnMap(start, map, markers, bounds, 'start');
   addMarkerOnMap(end, map, markers, bounds, 'end');
 }

@@ -6,6 +6,13 @@ from src.utils import ElevationStrategy, RouteAlgorithms
 
 from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.MapGraphModel import MapGraphModel
+import logging
+import os
+
+# Configure the logger
+log_file = os.path.join("..", "logging.txt")
+logging.basicConfig(filename=log_file, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class RouteController:
     def __init__(self):
@@ -23,16 +30,12 @@ class RouteController:
 
     # sets the value of 'algo' attribute to the provided 'algo' value
     def set_algo(self, algo):
+        logger.debug("Algorithm is set on  route controller.")
         self.algo = algo
 
     def calcuate_elevation_astar_path(self):
         """
         The starting and finishing coordinates are used to determine the shortest path.
-
-        Args:
-            origin:
-            dest:
-
         Returns:
             Shortest Path model
         """
@@ -51,11 +54,6 @@ class RouteController:
     def calcuate_elevation_dijkstra_path(self):
         """
         Calculates the elevation-aware path using Dijkstra's algorithm 
-
-        Args:
-            origin:
-            dest:
-
         Returns:
             Shortest path model
         """
@@ -76,8 +74,8 @@ class RouteController:
         The starting and finishing coordinates are used to determine the shortest path.
 
         Args:
-            origin:
-            dest:
+            origin: the origin location co-ordinates
+            dest: the destination location co-ordinates
 
         Returns:
             Shortest Path model
@@ -90,13 +88,14 @@ class RouteController:
 
     def calculate_final_route(self, start, end, elev_gain, map_view, dev_percent):
         """
-        Using the elevation strategy and supplied path limit, this method determines the ultimate shortest path.
+        Using the elevation strategy and supplied path limit, this method determines 
+        the ultimate shortest path.
         Args:
-            start:
-            end:
-            elev_gain:
-            map_view:
-            dev_percent:
+            start: the origin location co-ordinates
+            end: the destination location co-ordinates
+            elev_gain: the input elevation gain
+            map_view: the map-view being used to update the appropriate map
+            dev_percent: max % of the shortest path
         """
         # Shortest path calculation
         self.shortest_path = self.calculate_shortest_path(start, end)

@@ -24,10 +24,6 @@ class ShortestPathController(AbstractAlgorithm.AbstractAlgorithm):
     def __init__(self):
         """
         Initializes the ShortestPathController object
-
-        Returns:
-            None
-
         """
         self.G = None
         self.shortest_path = None

@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from src.Model import Observable
 
 """
-    An observer's interface is defined.
+An observer's interface is defined.
 """
 class Observer:
 
