@@ -12,24 +12,39 @@ Steps to run:
 # Linux
 sudo apt-get install python3-venv    # If needed
 
-python3 -m venv .venv
+pip install -r requirements
 
-source .venv/bin/activate
+From src directory
+
+./src/run.sh
 
 # macOS
-python3 -m venv .venv
+pip install -r requirements
 
-source .venv/bin/activate
+From src directory
+
+./src/run.sh
 
 # Windows
-python3 -m venv .venv
-
-.venv\scripts\activate
+pip install -r requirements.txt
 
 set FLASK_ENV=development
 
-set FLASK_APP=src/App.py
+set FLASK_APP=src/webapp.py
 
 flask run 
 
 preferable Jinja2 version: 2.11.3
+
+# To run the test suites
+## In one terminal
+from src directory
+./src/run.sh
+
+## From another terminal
+Migrate to src/test directory
+Run the commands listed below
+1. python UITestSuite.py
+2. python AlgoTestSuite.py
+3. python MVCTestSuite.py
+
