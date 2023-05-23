@@ -3,13 +3,21 @@ import osmnx as ox
 from src.Model.AlgorithmModel import AlgorithmModel
 from src.Model.PathModel import PathModel
 from src.Model.Observable import Observable
-from src.utils import Constants, ElevationGain
+from src.utils import Constants, ElevationGain, ElevationStrategy
 from src.utils import RouteAlgorithms
+from . import AbstractAlgorithm
+import logging
+import os
 
 ELEVATION_GAIN = "elevation_gain"
 LENGTH = "length"
 
-class ShortestPathController:
+# Configure the logger
+log_file = os.path.join("..", "logging.txt")
+logging.basicConfig(filename=log_file, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+class ShortestPathController(AbstractAlgorithm.AbstractAlgorithm):
     """
     This is the class with methods for calculating the shortest distance between two nodes.
     """
@@ -28,9 +36,46 @@ class ShortestPathController:
         self.end_location = None
         self.model = AlgorithmModel()
 
+    # set origin of the route
+    def set_origin(self, origin):
+        logger.debug("Origin is set on controller.")
+        self._origin = origin
+
+    # return the origin of the route
+    def get_origin(self):
+        return self._origin
+
+    # set  destination of the route
+    def set_destination(self, destination):
+        logger.debug("Destination is set on controller.")
+        self._destination = destination
+
+    # return the destination of the route
+    def get_destination(self):
+        return self._destination
+    
     # Sets the graph for calculating the shortest path
     def set_graph(self, G):
+        logger.debug("Graph is set in Shortest Path Controller.")
         self.G = G
+
+    # set algo as DIJKSTRA_ALGORITHM
+    def set_algo(self):
+        logger.debug("Algorithm is set on controller.")
+        self._algo = RouteAlgorithms.SHORTEST_ROUTE_ALGORITHM.value
+
+    # return the algo
+    def get_algo(self):
+        return self._algo
+    
+    # set the elevation strategy
+    def set_elevation_strategy(self, elevation_strategy):
+        logger.debug("Elevation strategy is set on controller.")
+        self._elevation_strategy = ElevationStrategy.NONE.value
+
+    # return elevation strategy 
+    def get_elevation_strategy(self):
+        return self._elevation_strategy
 
     # sets the contents of the path with calculated data
     def set_path_contents(self):
@@ -46,6 +91,7 @@ class ShortestPathController:
             
         self.shortest_dist = sum(ox.utils_graph.get_route_edge_attributes(self.G,self.shortest_path, Constants.LENGTH.value))
         path_model.set_distance(self.shortest_dist)
+        logger.debug("Path Model attributes are set.")
         return path_model
 
     # calculates the shortest path between two nodes

@@ -7,7 +7,13 @@ from . import AbstractAlgorithm
 import networkx as nx
 from src.utils import calculate_astar_path, ElevationGain, ElevationStrategy
 from src.utils import Constants, RouteAlgorithms
+import logging
+import os
 
+# Configure the logger
+log_file = os.path.join("..", "logging.txt")
+logging.basicConfig(filename=log_file, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class AStarController(AbstractAlgorithm.AbstractAlgorithm):
     """
@@ -41,6 +47,7 @@ class AStarController(AbstractAlgorithm.AbstractAlgorithm):
         self.shortest_dist = short_dist
         self.elevation_gain = short_dist.get_gain()
         self.set_algo()
+        logger.debug("Contents of AStar Controller are set.")
 
     # sets the algorithm for A*
     def set_algo(self):

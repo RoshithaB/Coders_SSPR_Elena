@@ -17,6 +17,7 @@ class ElevationStrategy(Enum):
     """
     MIN = "min"
     MAX = "max"
+    NONE = "None"
 
 class Constants(Enum):
     """

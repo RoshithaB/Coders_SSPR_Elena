@@ -6,6 +6,14 @@ from . import AbstractAlgorithm
 import networkx as nx
 from src.utils import calculate_astar_path, ElevationGain, ElevationStrategy
 from src.utils import Constants, RouteAlgorithms
+import logging
+import os
+
+
+# Configure the logger
+log_file = os.path.join("..", "logging.txt")
+logging.basicConfig(filename=log_file, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
     """
@@ -50,6 +58,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
 
     # set algo as DIJKSTRA_ALGORITHM
     def set_algo(self):
+        logger.debug("Algorithm is set on controller.")
         self._algo = RouteAlgorithms.DIJKSTRA_ALGORITHM.value
 
     # return the algo
@@ -58,6 +67,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
 
     # set the elevation strategy
     def set_elevation_strategy(self, elevation_strategy):
+        logger.debug("Elevation strategy is set on controller.")
         self._elevation_strategy = elevation_strategy
 
     # return elevation strategy 
@@ -66,6 +76,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
 
     # set origin of the route
     def set_origin(self, origin):
+        logger.debug("Origin is set on controller.")
         self._origin = origin
 
     # return the origin of the route
@@ -74,6 +85,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
 
     # set  destination of the route
     def set_destination(self, destination):
+        logger.debug("Destination is set on controller.")
         self._destination = destination
 
     # return the destination of the route
@@ -112,6 +124,7 @@ class DijsktraController(AbstractAlgorithm.AbstractAlgorithm):
                                             for route_node in self.elevation_path])
         path_model.set_distance(
             sum(ox.utils_graph.get_route_edge_attributes(self.graph_map, self.elevation_path, Constants.LENGTH.value)))
+        logger.debug("Path Model attributes are set.")
         return path_model
 
     # set the minmax value
