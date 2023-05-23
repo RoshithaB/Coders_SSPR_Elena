@@ -18,8 +18,9 @@ function initAutocomplete() {
   directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-  // Create the search box and link it to the UI element.
+  // Create the search box for the start button and link it to the UI element.
   var start = document.getElementById("start");
+  // Create the search box for the end button and link it to the UI element.
   var end = document.getElementById("end");
   addMarkerOnMap(start, map, markers, bounds, 'start');
   addMarkerOnMap(end, map, markers, bounds, 'end');
@@ -56,7 +57,6 @@ google.maps.event.addListener(autocomplete, 'place_changed', function () {
     }
   })(marker));
 
-  // Create a marker for each place.
 
   if(markers.has(key)) {
       markers.get(key).setMap(null);
@@ -70,6 +70,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function () {
   });
 }
 
+// This function shows the route on the map
 function showPathOnMap(start, end, path, distance, elevation){
   waypts = []
   for (let i = 3; i < path.length-3; i++){
@@ -83,7 +84,6 @@ function showPathOnMap(start, end, path, distance, elevation){
     origin: new google.maps.LatLng(start[0], start[1]),
     destination: new google.maps.LatLng(end[0], end[1]),
     waypoints: waypts,
-    // optimizeWaypoints: true,
     travelMode: 'WALKING'
   }, function(response, status) {
     if (status === 'OK') {
@@ -108,8 +108,9 @@ function removeMarker() {
   map.setZoom(13);
 }
 
+// This function is called when reset button is clicked.
+// It helps in removing the route from the map.
 function removePathFromMap(){
-  //directionsDisplay.setDirections({routes: []});
   directionsDisplay.setMap(null);
   directionsDisplay.setPanel(null);
   directionsService = new google.maps.DirectionsService;
@@ -121,6 +122,8 @@ function removePathFromMap(){
   directionsDisplay.setMap(map);
 }
 
+// This function validates the input values of start and end 
+// search boxes.
 function formValidation(){
   var start = document.getElementById("start").value;
   var end = document.getElementById("end").value;
@@ -137,6 +140,7 @@ function formValidation(){
   return true;
 }
 
+// This function helps in route statistics after a map is constructed.
 function setRouteStatistics(distance, elevation) {
   distance = distance/1609.344;
   distance = Math.round(distance * 100) / 100;
@@ -149,6 +153,7 @@ function setRouteStatistics(distance, elevation) {
   $("#info").show();
 }
 
+// This function helps in resetting the route statistics.
 function resetRouteStatistics() {
   document.getElementById("statistics").innerHTML = "";
 }
